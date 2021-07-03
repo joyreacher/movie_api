@@ -5,12 +5,133 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  <link rel="stylesheet" href="./css/styles.css"/>
+  <title>Documentation page</title>
 </head>
 <body>
-  <h1>Movie-api</h1>
-  <h2>This file contains instructions for developers who want to use this api.</h2>
-  <p>This api returns information about movies</p>
+  <header>
+    <h1 class="title">Movie-api</h1>
+  </header>
+  <main>
+    <!-- DOCUMENTATION -->
+    <section>
+      <blockquote>
+        <small>This file contains instructions for developers who want to use this api.</small>      
+      </blockquote>
+      <section>
+        <aside>
+          <h1>Documentation</h1>
+          <p>This api returns information about movies</p>
+        </aside>
+      </section>
+    </section>
+    <hr>
+    <!-- OBJECTIVE -->
+    <section>
+      <aside>
+        <h1>Objective</h1>
+        <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
+      </aside>
+    </section>
+    <hr>
+    <!-- DESIGN CRITERIA -->
+    <section>
+      <header>
+        <h2>Design Criteria/User Stories</h2>  
+      </header>
+        <blockquote>
+          <ul>
+            <li>
+              <p>As a user, I want to be able to <mark>receive information on movies, directors, and genres</mark> so that I can learn more about movies I’ve watched or am interested in.</p>
+            </li>
+            <li>
+              <p>As a user, I want to be able to <mark>create a profile so I can save data</mark> about my favorite movies.</p>
+            </li>
+          </ul>
+        </blockquote>
+    </section>
+    <hr>
+    <!-- FEATURE REQUIREMENTS -->
+    <section>
+      <header>
+        <h2>Feature Requirements</h2>
+      </header>
+      <blockquote>
+        <p>The feature requirements below were extracted from the user stories listed above. Your project will only be approved if the following “essential” feature requirements are implemented in your Achievement project.</p>
+      </blockquote>
+    </section>
+    <hr>
+    <!-- ESSENTIAL FEATURES -->
+    <section>
+      <header>
+        <h2>Essential Features</h2>
+      </header>
+      <blockquote>
+        <ol>
+          <li>Return a list of ALL movies to the user</li>
+          <li>Return data (description, genre, director, image URL, whether it’s featured or not) about a
+          single movie by title to the user</li>
+          <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
+          <li>Return data about a director (bio, birth year, death year) by name</li>
+          <li>Allow new users to register</li>
+          <li>Allow users to update their user info (username, password, email, date of birth)</li>
+          <li>Allow users to add a movie to their list of favorites</li>
+          <li>Allow users to remove a movie from their list of favorites</li>
+          <li>Allow existing users to deregister</li>
+        </ol>
+      </blockquote>
+    </section>
+    <hr>
+    <!-- OPTIONAL FEATURES -->
+    <section>
+      <h2>Optional Features</h2>
+      <details>
+        <summery>
+          Optional Features
+        </summery>
+        <p>These are optional features. You can incorporate these into your project through Bonus Tasks as you work through the Achievement. If you don’t have time, you can use this list as inspiration for a second iteration of your application once you’ve completed the course.</p>
+        <ol>
+          <li>Allow users to see which actors star in which movies</li>
+          <li>Allow users to view information about different actors</li>
+          <li>Allow users to view more information about different movies, such as the release date and
+          the movie rating</li>
+          <li>Allow users to create a “To Watch” list in addition to their “Favorite Movies” list</li>
+        </ol>
+      </details>
+    </section>
+    <hr>
+    <!-- TECHNIAL REQUIREMENTS -->
+    <section>
+      <header>
+        <h1>Technical Requirements</h1>
+      </header>
+      <blockquote>
+        <ol>
+          <li>The API must be a Node.js and Express application.</li>
+          <li>The API must use REST architecture, with URL endpoints corresponding to the data
+          operations listed above</li>
+          <li>The API must use at least three middleware modules, such as the body-parser package for</li>
+          reading data from requests and morgan for logging.
+          <li>The API must use a “package.json” file.</li>
+          The database must be built using MongoDB.</li>
+          The business logic must be modeled with Mongoose.</li>
+          <li>The API must provide movie information in JSON format.</li>
+          The JavaScript code must be error-free.</li>
+          <li>The API must be tested in Postman.</li>
+          <li>The API must include user authentication and authorization code.</li>
+          <li>The API must include data validation logic.</li>
+          <li>The API must meet data security regulations.</li>
+          <li>The API source code must be deployed to a publicly accessible platform like GitHub.</li>
+          <li>The API must be deployed to Heroku.</li>
+        </ol>
+      </blockquote>
+    </section>
+  </main>
+  
+  <footer>
+    Brian Thomas
+  </footer>
 </body>
 </html>
 
