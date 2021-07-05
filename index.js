@@ -4,8 +4,38 @@ const app = express();
 
 app.use(morgan('common'));
 
-
-app.get('/', function(req, res){res.send('success');});
+const movies ={
+  title:[
+    {
+      name:'Ths Shining',
+    },
+    {
+      name:'Ths Sandlot',
+    },
+    {
+      name:'Ths Happening',
+    },
+    {
+      name:'Ths Thing',
+    },
+    {
+      name:'Ths Fog',
+    },
+    {
+      name:'Ths Shining',
+    },
+    {
+      name:'Boss baby',
+    },
+    {
+      name:'Bee Movie',
+    },
+    {
+      name:'Godzilla',
+    },
+  ]
+};
+app.get('/movies', function(req, res){res.json(movies.title);});
 
 app.use((err, req, res, next)=>{
   console.log(err.stack);
