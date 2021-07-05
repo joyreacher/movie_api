@@ -36,6 +36,7 @@ const movies ={
   ]
 };
 app.get('/movies', function(req, res){res.json(movies.title);});
+app.get('/', (req, res)=>{res.send('<h1>This route exists!!</h1>');});
 
 app.use((err, req, res, next)=>{
   console.log(err.stack);
