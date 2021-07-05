@@ -40,9 +40,23 @@ const movies ={
 app.get('/movies', function(req, res){res.json(movies.title);});
 //3
 app.get('/', (req, res)=>{res.send('<h1>This route exists!!</h1>');});
+
+const options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html'],
+  index: false,
+  fallthrough:false,
+  lastModified:true,
+  maxAge: '1d',
+  redirect: false,
+  setHeaders: function (res, path, stat) {
+    res.set('x-timestamp', Date.now());
+  }
+};
 //4
-app.use(express.static('public'));
-app.get('/documentation', (req, res)=>{res.sendFile(__dirname + '/public/documentation.html');});
+app.use(express.static('public', options));
+// app.get('/documentation', (req, res)=>{res.sendFile(__dirname + '/public');});
 app.use((err, req, res, next)=>{
   console.log(err.stack);
   res.status(500).send('We have a problem');
