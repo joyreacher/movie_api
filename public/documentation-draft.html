@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css"> -->
+  <!-- <link rel="stylesheet" href="../css/styles.css"/> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <title>Documentation page</title>
+</head>
+<body>
+  <header class="container">
+    <h1 class="title">Movie-api</h1>
+  </header>
+  <main class="container">
+    <section>
+      <h2>API Documentation</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Endpoint URL [<span class="text-danger">query parameter</span>]</th>
+              <th>Data to be expected</th>
+              <th class="col-3">Response data (format)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- get all movies -->
+            <tr>
+              <td>Gets all movies</td>
+              <td>/</td>
+              <td>
+                An array of objects, each containing <code>title, description, genre, rating, filmography</code>
+              </td>
+              <td>
+                <samp>
+                  <code>
+                    {"movies":{
+                      [{},{},{}...]
+                    }}
+                  </code>
+              </samp>
+            </td>
+            </tr>
+            <!-- return details about movies -->
+            <tr>
+              <td>Returns details about a specific movie</td>
+              <td>/content/movies/details/[<span class="text-danger">title</span>]</td>
+              <td>JSON object containing data about a single move based on the title query parameter.</td>
+              <td><samp><code>"movies":{
+                  "title": "The Fast & The Furious",
+                  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, repellat tempore
+                  nemo ad possimus quo",
+                  "genre":"action",
+                  "rating": 🍅 🍅 ,
+                  "filmography":[
+                    "cast":{
+                      "Kitty Doe": "Villian",
+                      "Dr. Barksalot": "Hero"
+                    },
+                    "crew":{
+                      "director": "Chico"
+                    }
+                  ]}</code></samp>
+              </td>
+            </tr>
+            <!-- return a specific genre -->
+            <tr>
+              <td>Returns details about a specific genre</td>
+              <td>/content/movies/movielist?[<span class="text-danger">genre</span>]</td>
+              <td>JSON object containing data about a single move based on the title query parameter.</td>
+              <td><samp><code>"genre":{
+                "title"[
+                    {
+                  "Ringo":"url to /content/movies/details/[ringo]",
+                  "Batman":"url to /content/movies/details/[batman]",
+                  "Alice In Wonderland":"url to /content/movies/details/[alice+in+wonderland]",
+                  }
+                ]
+              }</code></samp>
+              </td>
+            </tr>
+            <!-- return director -->
+            <tr>
+              <td>Returns details the director of a film.</td>
+              <td>/content/movies/filmography/[<span class="text-danger">name</span>]</td>
+              <td>JSON object containing data about a film's director(s)</td>
+              <td><samp><code>"filmography":{
+                "cast"[
+                    {
+                  "cast member 1":"url to /content/movies/details/[ringo]",
+                  },
+                "crew":{
+                  "Steven Spielberg" :[
+                    {
+                      "dob": "1/1/1111",
+                      "hometown": "somewhere, USA",
+                      {"movies":["ET", "War of the Worlds, The Terminal"]}
+                    }
+                  ]
+                }
+              }</code></samp>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </section>
+    <!-- DOCUMENTATION -->
+    <section>
+      <blockquote>
+        <small>This file contains instructions for developers who want to use this api.</small>      
+      </blockquote>
+      <section>
+        <aside>
+          <h1>Documentation</h1>
+          <p>This api returns information about movies</p>
+        </aside>
+      </section>
+    </section>
+    <hr>
+    <!-- OBJECTIVE -->
+    <section>
+      <aside>
+        <h1>Objective</h1>
+        <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
+      </aside>
+    </section>
+    <hr>
+    <!-- DESIGN CRITERIA -->
+    <section>
+      <header>
+        <h2>Design Criteria/User Stories</h2>  
+      </header>
+        <blockquote>
+          <ul>
+            <li>
+              <p>As a user, I want to be able to <mark>receive information on movies, directors, and genres</mark> so that I can learn more about movies I’ve watched or am interested in.</p>
+            </li>
+            <li>
+              <p>As a user, I want to be able to <mark>create a profile so I can save data</mark> about my favorite movies.</p>
+            </li>
+          </ul>
+        </blockquote>
+    </section>
+    <hr>
+    <!-- FEATURE REQUIREMENTS -->
+    <section>
+      <header>
+        <h2>Feature Requirements</h2>
+      </header>
+      <blockquote>
+        <p>The feature requirements below were extracted from the user stories listed above. Your project will only be approved if the following “essential” feature requirements are implemented in your Achievement project.</p>
+      </blockquote>
+    </section>
+    <hr>
+    <!-- ESSENTIAL FEATURES -->
+    <section>
+      <header>
+        <h2>Essential Features</h2>
+      </header>
+      <blockquote>
+        <ol>
+          <li>Return a list of ALL movies to the user</li>
+          <li>Return data (description, genre, director, image URL, whether it’s featured or not) about a
+          single movie by title to the user</li>
+          <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
+          <li>Return data about a director (bio, birth year, death year) by name</li>
+          <li>Allow new users to register</li>
+          <li>Allow users to update their user info (username, password, email, date of birth)</li>
+          <li>Allow users to add a movie to their list of favorites</li>
+          <li>Allow users to remove a movie from their list of favorites</li>
+          <li>Allow existing users to deregister</li>
+        </ol>
+      </blockquote>
+    </section>
+    <hr>
+    <!-- OPTIONAL FEATURES -->
+    <section>
+      <h2>Optional Features</h2>
+      <details>
+        <summery>
+          Optional Features
+        </summery>
+        <p>These are optional features. You can incorporate these into your project through Bonus Tasks as you work through the Achievement. If you don’t have time, you can use this list as inspiration for a second iteration of your application once you’ve completed the course.</p>
+        <ol>
+          <li>Allow users to see which actors star in which movies</li>
+          <li>Allow users to view information about different actors</li>
+          <li>Allow users to view more information about different movies, such as the release date and
+          the movie rating</li>
+          <li>Allow users to create a “To Watch” list in addition to their “Favorite Movies” list</li>
+        </ol>
+      </details>
+    </section>
+    <hr>
+    <!-- TECHNIAL REQUIREMENTS -->
+    <section>
+      <header>
+        <h1>Technical Requirements</h1>
+      </header>
+      <blockquote>
+        <ol>
+          <li>The API must be a Node.js and Express application.</li>
+          <li>The API must use REST architecture, with URL endpoints corresponding to the data
+          operations listed above</li>
+          <li>The API must use at least three middleware modules, such as the body-parser package for</li>
+          reading data from requests and morgan for logging.
+          <li>The API must use a “package.json” file.</li>
+          The database must be built using MongoDB.</li>
+          The business logic must be modeled with Mongoose.</li>
+          <li>The API must provide movie information in JSON format.</li>
+          The JavaScript code must be error-free.</li>
+          <li>The API must be tested in Postman.</li>
+          <li>The API must include user authentication and authorization code.</li>
+          <li>The API must include data validation logic.</li>
+          <li>The API must meet data security regulations.</li>
+          <li>The API source code must be deployed to a publicly accessible platform like GitHub.</li>
+          <li>The API must be deployed to Heroku.</li>
+        </ol>
+      </blockquote>
+    </section>
+  </main>
+  
+  <footer>
+    Brian Thomas
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>
+
