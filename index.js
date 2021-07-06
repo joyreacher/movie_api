@@ -69,6 +69,9 @@ app.post('/content/movies/register', (req, res) => {
   const { email, name, password } = req.body
   res.json(`${name} is trying to register..`)
 })
+// unregister user
+app.delete('/content/account/unregister/:email', (req, res) => { res.json(`Find the user withe the corresponding email '${req.body.email}' and delete them`) })
+
 // make changes to a user's account
 app.put('/content/account/myinfo?:username', (req, res) => { res.json(` '${req.query.username}' is the value that will be used to update a user's profile.`) })
 // add a movie to a users favorite movies
