@@ -5,7 +5,7 @@ const app = express()
 const movies = {
   'movies':[
     {
-      'name': '',
+      'title': '',
       'description':'',
       'genre':'',
       'rating':'',
@@ -22,24 +22,6 @@ const movies = {
         }
       ]
     },
-    {
-      'name': '',
-      'description':'',
-      'genre':'',
-      'rating':'',
-      'filmography':[
-        {
-          'cast':{
-            'name':'',
-            'screenname':''
-          },
-          'crew':{
-            'name':'',
-            'job':''
-          }
-        }
-      ]
-    }
   ]
 }
 const options = {

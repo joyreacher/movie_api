@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Simple Sidebar - Start Bootstrap Template</title>
+        <title>Documentation</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -15,9 +15,9 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+                <div class="sidebar-heading border-bottom bg-light"><a class="nav-link" href="./documentation.html">Movie API Documentation</a></div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./all-movies.html.">Return all movies</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./all-movies.html.">Getting Started</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Shortcuts</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
@@ -52,104 +52,25 @@
                 <!-- Page content-->
                 <div class="container-fluid p-3">
                     <h1 class="mt-4">Return All Data</h1>
-                    <img class="img-responsive" src="./img/getAllMovies.png" alt="Code showing get endpoint to retrieve all movies">
-                    <p>This file contains instructions for developers who want to use this api.</p>
-                    <h1 class="mt-4">Objective</h1>
-                    <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
-                    <p>As a user, I want to be able to <code>receive information on movies, directors, and genres</code> so that I can learn more about movies I’ve watched or am interested in.</p>
-                    <p>As a user, I want to be able to <code>create a profile so I can save data</code> about my favorite movies.</p>
-                    <section class="mt-4">
-                      <h1>API Documentation</h1>
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>Description</th>
-                              <th>Endpoint URL [<span class="text-danger">query parameter</span>]</th>
-                              <th>Data to be expected</th>
-                              <th class="col-3">Response data (format)</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <!-- get all movies -->
-                            <tr>
-                              <td>Gets all movies</td>
-                              <td>/</td>
-                              <td>
-                                An array of objects, each containing <code>title, description, genre, rating, filmography</code>
-                              </td>
-                              <td>
-                                <samp>
-                                  <code>
-                                    {"movies":{
-                                      [{},{},{}...]
-                                    }}
-                                  </code>
-                              </samp>
-                            </td>
-                            </tr>
-                            <!-- return details about movies -->
-                            <tr>
-                              <td>Returns details about a specific movie</td>
-                              <td>/content/movies/details/[<span class="text-danger">title</span>]</td>
-                              <td>JSON object containing data about a single move based on the title query parameter.</td>
-                              <td><samp><code>"movies":{
-                                  "title": "The Fast & The Furious",
-                                  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, repellat tempore
-                                  nemo ad possimus quo",
-                                  "genre":"action",
-                                  "rating": 🍅 🍅 ,
-                                  "filmography":[
-                                    "cast":{
-                                      "Kitty Doe": "Villian",
-                                      "Dr. Barksalot": "Hero"
-                                    },
-                                    "crew":{
-                                      "director": "Chico"
-                                    }
-                                  ]}</code></samp>
-                              </td>
-                            </tr>
-                            <!-- return a specific genre -->
-                            <tr>
-                              <td>Returns details about a specific genre</td>
-                              <td>/content/movies/movielist?[<span class="text-danger">genre</span>]</td>
-                              <td>JSON object containing data about a single move based on the title query parameter.</td>
-                              <td><samp><code>"genre":{
-                                "title"[
-                                    {
-                                  "Ringo":"url to /content/movies/details/[ringo]",
-                                  "Batman":"url to /content/movies/details/[batman]",
-                                  "Alice In Wonderland":"url to /content/movies/details/[alice+in+wonderland]",
-                                  }
-                                ]
-                              }</code></samp>
-                              </td>
-                            </tr>
-                            <!-- return director -->
-                            <tr>
-                              <td>Returns details the director of a film.</td>
-                              <td>/content/movies/filmography/[<span class="text-danger">name</span>]</td>
-                              <td>JSON object containing data about a film's director(s)</td>
-                              <td><samp><code>"filmography":{
-                                "cast"[
-                                    {
-                                  "cast member 1":"url to /content/movies/details/[ringo]",
-                                  },
-                                "crew":{
-                                  "Steven Spielberg" :[
-                                    {
-                                      "dob": "1/1/1111",
-                                      "hometown": "somewhere, USA",
-                                      {"movies":["ET", "War of the Worlds, The Terminal"]}
-                                    }
-                                  ]
-                                }
-                              }</code></samp>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                    <img class="w-100" src="./img/getAllMovies..png" alt="Code showing get endpoint to retrieve all movies">
+                    <section class="container p-5">
+                      <h1 class="display-1">Getting Started</h1>
+                      <h4 class="mt-5">Once you've <code><a href="https://github.com/joyreacher/movie_api">cloned the movie api repo</a></code> and ran the appropriate node commands</h4>
+                      <p class="blockquote">
+                        <ul class="list-unstyled mt-3 mb-3 bg-dark p-5 text-light rounded-3">
+                          <li>You'll be able to access this resource whether or not you have an account.</li>
+                          <li>No query parameter required.</li>
+                          <li>Returns a <code>JSON</code> object.</li>
+                        </ul>
+                      </p>
+                      <div class="d-flex justify-content-lg-around">
+                        <img class="img-fluid w-100" src="./img/movies-object.png" alt="The movie object's code">
+                        <div class="p-5">
+                          <h1 class="display-3">The Movie Object</h1>
+                          <p>This resource uses <code>GET</code> method</p>
+                          <pre><code>app.get('/', function (req, res) { res.json(movies.title) })</code></pre>
+                        </div>
+                        
                       </div>
                       
                     </section>
