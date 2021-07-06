@@ -3,33 +3,42 @@
 const express = require('express'); const morgan = require('morgan')
 const app = express()
 const movies = {
-  title: [
+  'movies':[
     {
-      name: 'Ths Shining'
+      'name': '',
+      'description':'',
+      'genre':'',
+      'rating':'',
+      'filmography':[
+        {
+          'cast':{
+            'name':'',
+            'screenname':''
+          },
+          'crew':{
+            'name':'',
+            'job':''
+          }
+        }
+      ]
     },
     {
-      name: 'Ths Sandlot'
-    },
-    {
-      name: 'Ths Happening'
-    },
-    {
-      name: 'Ths Thing'
-    },
-    {
-      name: 'Ths Fog'
-    },
-    {
-      name: 'Ths Shining'
-    },
-    {
-      name: 'Boss baby'
-    },
-    {
-      name: 'Bee Movie'
-    },
-    {
-      name: 'Godzilla'
+      'name': '',
+      'description':'',
+      'genre':'',
+      'rating':'',
+      'filmography':[
+        {
+          'cast':{
+            'name':'',
+            'screenname':''
+          },
+          'crew':{
+            'name':'',
+            'job':''
+          }
+        }
+      ]
     }
   ]
 }
