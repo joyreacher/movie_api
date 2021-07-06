@@ -7,8 +7,6 @@
       "eslint:recommended"
   ],
   "rules": {
-      "quotes": ["error", "single"],
-      "semi": ["error", "always"],
-      "no-console": ["error", { "allow": ["warn", "error"] }]
+      "quotes": ["error", "single"]
   }
 }
