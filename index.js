@@ -67,7 +67,7 @@ app.post('/content/movies/register', (req, res) => {
   // store what is entered through a form field
   // form input fields need to have corresponding names
   const { email, name, password } = req.body
-  res.json(`${req.body.name} is trying to register..`)
+  res.json(`${name} is trying to register..`)
 })
 // make changes to a user's account
 app.put('/content/account/myinfo?:username', (req, res) => { res.json(` '${req.query.username}' is the value that will be used to update a user's profile.`) })
