@@ -15,14 +15,13 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light"><a class="nav-link" href="./documentation.html">Movie API Documentation</a></div>
+                <div class="sidebar-heading border-bottom bg-light">Movie API Documentation</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./all-movies.html">Getting Started</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Shortcuts</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./all-movies.html">All Movies</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./single-movie.html">Movie Details</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./genre.html">Genre</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./filmography.html">Filmography</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./users.html">Users</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -34,31 +33,22 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Action</a>
-                                        <a class="dropdown-item" href="#!">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Something else here</a>
-                                    </div>
-                                </li>
+                                <li class="nav-item active"><a class="nav-link" href="./documentation.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://github.com/joyreacher/movie_api">GitHub</a></li>
                             </ul>
                         </div>
                     </div>
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid p-3">
-                    <h1 class="mt-4">Movie API</h1>
+                    <h1 class="mt-4 display-1">Movie API</h1>
                     <p>This file contains instructions for developers who want to use this api.</p>
                     <h1 class="mt-4">Objective</h1>
                     <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
                     <p>As a user, I want to be able to <code>receive information on movies, directors, and genres</code> so that I can learn more about movies I’ve watched or am interested in.</p>
                     <p>As a user, I want to be able to <code>create a profile so I can save data</code> about my favorite movies.</p>
                     <section class="mt-5">
-                      <h1>API Reference</h1>
+                      <h1>API Quick Reference</h1>
                       <div class="table-responsive">
                         <table class="table table-striped">
                           <thead>
@@ -73,7 +63,7 @@
                             <!-- get all movies -->
                             <tr>
                               <td>Gets all movies</td>
-                              <td>/</td>
+                              <td>/content/movies</td>
                               <td>
                                 An array of objects, each containing <code>title, description, genre, rating, filmography</code>
                               </td>
@@ -81,7 +71,10 @@
                                 <samp>
                                   <code>
                                     {"movies":{
-                                      [{},{},{}...]
+                                      [{
+                                        "title":"Gremlins",
+                                        "url": "/content/movie/gremlins"
+                                      }]
                                     }}
                                   </code>
                               </samp>
@@ -92,59 +85,72 @@
                               <td>Returns details about a specific movie</td>
                               <td>/content/movies/details/[<span class="text-danger">title</span>]</td>
                               <td>JSON object containing data about a single move based on the title query parameter.</td>
-                              <td><samp><code>"movies":{
-                                  "title": "The Fast & The Furious",
-                                  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, repellat tempore
-                                  nemo ad possimus quo",
-                                  "genre":"action",
-                                  "rating": 🍅 🍅 ,
-                                  "filmography":[
-                                    "cast":{
-                                      "Kitty Doe": "Villian",
-                                      "Dr. Barksalot": "Hero"
-                                    },
-                                    "crew":{
-                                      "director": "Chico"
+                              <td><samp><code>"movie":[
+                                { 
+                                  "title":"Godzilla",
+                                  "description":"This is the description for godzilla",
+                                  "filmography":
+                                    {
+                                      "cast":{
+                                        "name":"Jim Carry",
+                                        "screenname":"Godzilla"
+                                      },
+                                      "crew":{
+                                        "name":"Stephen Speilberg",
+                                        "films": ""
+                                      }
                                     }
-                                  ]}</code></samp>
+                                }</code></samp>
                               </td>
                             </tr>
                             <!-- return a specific genre -->
                             <tr>
                               <td>Returns details about a specific genre</td>
-                              <td>/content/movies/movielist?[<span class="text-danger">genre</span>]</td>
+                              <td>/content/movies?[<span class="text-danger">genre</span>]</td>
                               <td>JSON object containing data about a single move based on the title query parameter.</td>
                               <td><samp><code>"genre":{
-                                "title"[
-                                    {
-                                  "Ringo":"url to /content/movies/details/[ringo]",
-                                  "Batman":"url to /content/movies/details/[batman]",
-                                  "Alice In Wonderland":"url to /content/movies/details/[alice+in+wonderland]",
+                                "adventure":[
+                                  {
+                                    "title":"Godzilla",
+                                    "url":"",
+                                  },
+                                  {
+                                    "title":"King Kong",
+                                    "url":"",
                                   }
-                                ]
-                              }</code></samp>
+                                  
+                                ],</code></samp>
                               </td>
                             </tr>
                             <!-- return director -->
                             <tr>
                               <td>Returns details the director of a film.</td>
-                              <td>/content/movies/filmography/[<span class="text-danger">name</span>]</td>
+                              <td>/content/movies/filmography/[<span class="text-danger">title</span>]/[<span class="text-danger">name</span>]</td>
                               <td>JSON object containing data about a film's director(s)</td>
-                              <td><samp><code>"filmography":{
-                                "cast"[
-                                    {
-                                  "cast member 1":"url to /content/movies/details/[ringo]",
+                              <td><samp><code>    "filmography":{
+                                "actor":[
+                                  {
+                                    "id":0,
+                                    "name":"Brad Pitt",
+                                    "flims": [
+                                      {
+                                        "title":"Fight Club",
+                                        "url":"/content/movie/fight+club"
+                                      }
+                                    ]
                                   },
-                                "crew":{
-                                  "Steven Spielberg" :[
-                                    {
-                                      "dob": "1/1/1111",
-                                      "hometown": "somewhere, USA",
-                                      {"movies":["ET", "War of the Worlds, The Terminal"]}
-                                    }
-                                  ]
-                                }
-                              }</code></samp>
+                                  {
+                                    "id":1,
+                                    "name":"Scarlett Johansson",
+                                    "flims": [
+                                      {
+                                        "title":"Avengers",
+                                        "url":"/content/movie/avengers"
+                                      }
+                                    ]
+                                    
+                                  }
+                                ]</code></samp>
                               </td>
                             </tr>
                           </tbody>

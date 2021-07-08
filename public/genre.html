@@ -21,7 +21,7 @@
                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./single-movie.html">Movie Details</a>
                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./genre.html">Genre</a>
                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./filmography.html">Filmography</a>
-                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./user.html">Users</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./users.html">Users</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -41,24 +41,33 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid p-3">
-                    <h1 class="mt-4 display-1">Return All Data</h1>
-                    <img class="w-100" src="./img/get-all-movies.png" alt="Code showing get endpoint to retrieve all movies">
+                    <h1 class="mt-4 display-1">Returning a Genre of Movies</h1>
+                    <img class="w-100" src="./img/get-genre.png" alt="Code showing get endpoint to retrieve all movies">
                     <section class="container p-5">
-                      <h4 class="mt-5">Once you've <code><a href="https://github.com/joyreacher/movie_api">cloned the movie api repo</a></code> and ran the appropriate node commands</h4>
                       <p class="blockquote">
                         <ul class="list-unstyled mt-3 mb-3 bg-dark p-5 text-light rounded-3">
-                          <li>You'll be able to access this resource whether or not you have an account.</li>
-                          <li>No query parameter required.</li>
-                          <li>Returns a <code>JSON</code> object.</li>
+                          <li>The <code>genre</code> object returns an array of objects that contain the title and url to each of a particular genre.</li>
+                          <li><code>:genre</code> parameter allows the user to choose what genre to return.</li>
+                          <li>Returns a <code>JSON</code> object with the following values.</li>
+                          <pre>
+                            <code>
+                              "title":string,
+                              "url":string,
+                            </code>
+                          </pre>
                         </ul>
                       </p>
-                      <div class="d-flex flex-column-reverse justify-content-lg-around">
-                        <img class="img-fluid w-100" src="./img/all-movies-object.png" alt="The movie object's code">
+                      <div class="d-flex justify-content-lg-around">
+                        <img class="img-fluid w-75" src="./img/genre-object.png" alt="The movie object's code">
                         <div class="p-5">
-                          <h1 class="display-3">The Movies Object</h1>
+                          <h1 class="display-3">The Genre Object</h1>
+                          <sup class="text-info">*This object will be updated with more data soon</sup>
                           <p>This resource uses <code>GET</code> method to return a list of movie titles and their respective URL</p>
-                          <code>app.get('/content/movies', (req, res) => {
-                            res.send(db.content.movies)
+                          <code>app.get('/content/movies?:genre', (req, res, next) => {
+                            // get the value from the url
+                            const genere = req.query.genre
+                            // return the array of objects with title and url values
+                            if(genere === 'action') res.send(db.content.genre.action)
                           })</code>
                         </div>
                         

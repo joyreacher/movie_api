@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Documentation</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+              <div class="sidebar-heading border-bottom bg-light">Movie API Documentation</div>
+              <div class="list-group list-group-flush">
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./all-movies.html">All Movies</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./single-movie.html">Movie Details</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./genre.html">Genre</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./filmography.html">Filmography</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./users.html">Users</a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="./documentation.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://github.com/joyreacher/movie_api">GitHub</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid p-3">
+                    <h1 class="mt-4 display-1">User Interactions</h1>
+                    <p class="blockquote">
+                      <ul class="list-unstyled mt-3 mb-3 bg-dark p-5 text-light rounded-3">
+                        <li>The <code>filmography</code> object returns an array of objects that contain the title and url to each of a particular genre.</li>
+                        <li><code>:genre</code> parameter allows the user to choose what genre to return.</li>
+                        <li>Returns a <code>JSON</code> object with the following values.</li>
+                        <pre>
+                          <code>
+                            "title":string,
+                            "url":string,
+                          </code>
+                        </pre>
+                      </ul>
+                    </p>
+                    <h4 class="mt-4">Register User</h4>
+                    <img class="w-100" src="./img/register-user.png" alt="Code showing get endpoint to register a user">
+                    <h4 class="mt-4">Unregister User</h4>
+                    <img class="w-100" src="./img/unregister-user.png" alt="Code showing get endpoint to unregister a user">
+                    
+                    <h4 class="mt-4">Change User Information</h4>
+                    <img class="w-100" src="./img/change-user-info.png" alt="Code showing get endpoint to change user info">
+                    <div class="p-5">
+                      <h1 class="display-3">The Account Endpoint</h1>
+                      <p>This resource uses <code>POST, DELETE, PUT</code> methods to transfer <code>name, email, password</code> data</p>
+                      <p><code>myinfo</code> name query is used to input a search for the full name of a user's account<sup class="text-info">*Case/Space Sensitive</sup></p>
+                      <sup class="text-info">*This is just an example object and will be updated soon.</sup><br/>
+                      <code>app.post('/content/account/register', (req, res) => {
+                        const { email, name, password } = req.body;
+                        db.users.myinfo.push({
+                          id: '1',
+                          name: name,
+                          email: email,
+                          password: password,
+                          entries: 0,
+                          joined: new Date()
+                        })
+                        res.json(db.users.myinfo[db.users.myinfo.length - 1])
+                      })</code>
+                    </div>
+                    <h4 class="mt-4">Create a List Of Movies</h4>
+                    <img class="w-100" src="./img/add-movies-to-favories-list.png" alt="Code showing get endpoint to change user info">
+                    <h4 class="mt-4">Delete a Movie From a Users' List</h4>
+                    <img class="w-100" src="./img/remove-movies-to-favories-list.png" alt="Code showing get endpoint to change user info">
+                    <section class="container p-5">
+                      <div class="d-flex flex-column-reverse justify-content-lg-around">
+                        <img class="img-fluid w-75" src="./img/users-object.png" alt="The movie object's code">
+                        <div class="p-5">
+                          <h1 class="display-3">The Users Object</h1>
+                          <p>This resource uses <code>POST, DELETE</code> method to return/delete a list/movie from a users' list</p>
+                          <sup class="text-info">*This is just an example object and will be updated soon.</sup><br/>
+                          <code>app.put('/content/account/myinfo?:name', (req, res) => {
+                            const { name } = req.query
+                            db.users.myinfo.forEach(user=>{
+                              if(user.name === name){
+                                user.username = 'ThisUserNameIsHardCoded';
+                                return res.json(user)
+                              }
+                            })
+                          })</code>
+                        </div>
+                      </div>
+                      
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

@@ -41,24 +41,33 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid p-3">
-                    <h1 class="mt-4 display-1">Return All Data</h1>
+                    <h1 class="mt-4 display-1">Returning Movie Data</h1>
                     <img class="w-100" src="./img/get-all-movies.png" alt="Code showing get endpoint to retrieve all movies">
                     <section class="container p-5">
-                      <h4 class="mt-5">Once you've <code><a href="https://github.com/joyreacher/movie_api">cloned the movie api repo</a></code> and ran the appropriate node commands</h4>
                       <p class="blockquote">
                         <ul class="list-unstyled mt-3 mb-3 bg-dark p-5 text-light rounded-3">
-                          <li>You'll be able to access this resource whether or not you have an account.</li>
-                          <li>No query parameter required.</li>
-                          <li>Returns a <code>JSON</code> object.</li>
+                          <li>The <code>movie</code> object contains information about a specific movie.</li>
+                          <li><code>:title</code> parameter allows the user to choose what movie to look up.</li>
+                          <li>Returns a <code>JSON</code> object with the following values.</li>
+                          <pre>
+                            <code>
+                              "title":string,
+                              "description":string,
+                              "genre":string,
+                              "rating":string,
+                              "filmography":object
+                            </code>
+                          </pre>
                         </ul>
                       </p>
-                      <div class="d-flex flex-column-reverse justify-content-lg-around">
-                        <img class="img-fluid w-100" src="./img/all-movies-object.png" alt="The movie object's code">
+                      <div class="d-flex justify-content-lg-around">
+                        <img class="img-fluid w-75" src="./img/movie-object.png" alt="The movie object's code">
                         <div class="p-5">
                           <h1 class="display-3">The Movies Object</h1>
                           <p>This resource uses <code>GET</code> method to return a list of movie titles and their respective URL</p>
-                          <code>app.get('/content/movies', (req, res) => {
-                            res.send(db.content.movies)
+                          <code>app.get('/content/movie/details/:id', (req, res) => {
+                            const id = req.params.id
+                            res.send(db.content.movie[id])
                           })</code>
                         </div>
                         
