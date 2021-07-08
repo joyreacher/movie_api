@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 const express = require('express'); const morgan = require('morgan')
 const app = express()
-const db = require('./public/js/db.js');
+const db = require('./public/js/db.js')
 const options = {
   dotfiles: 'ignore',
   etag: false,
@@ -30,7 +30,7 @@ app.get('/content', function (req, res) {
 })
 // return the entire db object
 app.get('/', (req, res) => {
-  //? res.send(db.content.movies[0])
+  // ? res.send(db.content.movies[0])
   res.send(db)
 })
 // return all movies
@@ -47,31 +47,30 @@ app.get('/content/movies?:genre', (req, res, next) => {
   // get the value from the url
   const genere = req.query.genre
   // return the array of objects with title and url values
-  if(genere === 'action') res.send(db.content.genre.action)
+  if (genere === 'action') res.send(db.content.genre.action)
 })
 // return director
 app.get('/content/movies/filmography/:title/:name', (req, res) => {
-  // return the entire filmography array containing actors and director values
   //! req.params.name --- to access the name
-  
+
   // store url parameters
-  let { title, name} = req.params;
-  
-  if(title === 'director'){
-    db.content.filmography.director.forEach(director=>{
-      if(director.name === name){
+  const { title, name } = req.params
+
+  if (title === 'director') {
+    db.content.filmography.director.forEach(director => {
+      if (director.name === name) {
         res.send(director)
       }
     })
-  }else if(title === 'actor'){
-    db.content.filmography.actor.forEach(actor=>{
-      if(actor.name === name){
+  } else if (title === 'actor') {
+    db.content.filmography.actor.forEach(actor => {
+      if (actor.name === name) {
         res.send(actor)
       }
     })
   }
   // if parameter passed does not exist return the entire filmography array
-  else{
+  else {
     res.send(db.content.filmography)
   }
 })
@@ -79,7 +78,7 @@ app.get('/content/movies/filmography/:title/:name', (req, res) => {
 app.post('/content/account/register', (req, res) => {
   // store what is entered through a form field
   // form input fields need to have corresponding names
-  const { email, name, password } = req.body;
+  const { email, name, password } = req.body
   db.users.myinfo.push({
     id: '1', // for loop to increment the id number here
     name: name,
@@ -103,12 +102,12 @@ app.put('/content/account/myinfo?:name', (req, res) => {
   // get value in query parameter
   const { name } = req.query
   // use foreach to iterate through the array of users
-  db.users.myinfo.forEach(user=>{
+  db.users.myinfo.forEach(user => {
     // if a username matches
-    if(user.name === name){
+    if (user.name === name) {
       //! DOES NOT WORK IN THE  BROWSER -- NO FILE OR DIRECTORY AT /CONTENT/ACCOUNT/MYINFO.HTML
       //! DOES UPDATE IN POSTMAN
-      user.username = 'ThisUserNameIsHardCoded';
+      user.username = 'ThisUserNameIsHardCoded'
       return res.json(user)
     }
   })
@@ -116,18 +115,18 @@ app.put('/content/account/myinfo?:name', (req, res) => {
 // add a movie to a users favorite movies
 app.post('/content/movies/mymovies', (req, res) => {
   // will need to add form encodeurl/escape special characters --- express-validator = ?
-  
+
   // data that is sent through an input field assigned to values
   const { title } = req.body
-  //search through the movies array
-  db.content.movies.forEach(movie=>{
+  // search through the movies array
+  db.content.movies.forEach(movie => {
     // if that movie exists in the array
-    if(movie.title == title){
+    if (movie.title === title) {
       // add it to mymovies
       db.users.myinfo[0].mymovies.push({
-        "title":title,
+        title: title,
         // get the url from the movies array-object
-        "url": movie.url
+        url: movie.url
       })
       res.send(db.users.myinfo[0])
     }
@@ -139,10 +138,10 @@ app.delete('/content/movies/mymovies', (req, res) => {
   // will need to add form encodeurl/escape special characters
   // express-validator = ?
   // res.json(`<h1>deleting ${title}</h1>`)
-  
+
   // iterate through each movie
-  db.users.myinfo[0].mymovies.forEach(movie=>{
-    if(movie.title === title){
+  db.users.myinfo[0].mymovies.forEach(movie => {
+    if (movie.title === title) {
       res.send(`remove ${title}`)
     }
   })
