@@ -118,22 +118,22 @@ const db = {
     "filmography":{
       "actor":[
         {
-          "id":"",
+          "id":0,
           "name":"Brad Pitt",
           "flims": [
             {
-              "title":"",
-              "url":""
+              "title":"Fight Club",
+              "url":"/content/movie/fight+club"
             }
           ]
         },
         {
-          "id":"",
+          "id":1,
           "name":"Scarlett Johansson",
           "flims": [
             {
-              "title":"",
-              "url":""
+              "title":"Avengers",
+              "url":"/content/movie/avengers"
             }
           ]
           
@@ -141,35 +141,53 @@ const db = {
       ],
       "director":[
         {
-          "name":"Quintin Tarentino"
+          "name":"Quintin Tarentino",
+          "films": [
+            {
+              "title":"Pulp Fiction",
+              "url":""
+            }
+          ]
         }
       ]
     },
     "movie":[
       {
-        
         "title":"Godzilla",
         "description":"This is the description for godzilla",
-        "filmography":
-          {
-            "cast":{
-              "name":"Jim Carry",
-              "screenname":"Godzilla"
-            },
-            "crew":{
-              "name":"Stephen Speilberg",
-              "films": ""
-            }
+        "genre":"action",
+        "rating":'🍅 🍅 🍅 ',
+        "filmography":{
+            "cast":[
+              {
+                "name":"Matthew Broderick",
+                "screenname":"Dr. Nino Totopoulos"
+              },
+              {
+                "name":"Jeadn Reno",
+                "screenname":"Philppe Roache"
+              },
+              {
+                "name":"Maria Pitillo",
+                "screenname":"Audrey Timmonds"
+              }
+            ],
+            "director":[
+              {
+                "name":"Roland Emmerich",
+                "films": ""
+              }
+            ]
           }
       },
       {
         "title":"Fast and the Furious",
-        "description":"This is the description for godzilla",
+        "description":"A Movie about cars.",
         "filmography":
           {
             "cast":{
-              "name":"Jim Carry",
-              "screenname":"Godzilla"
+              "name":"Vin Diesal",
+              "screenname":"Dom"
             },
             "crew":{
               "name":"Stephen Speilberg",
