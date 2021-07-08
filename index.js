@@ -33,9 +33,14 @@ app.get('/', (req, res) => {
   //? res.send(db.content.movies[0])
   res.send(db)
 })
+// return all movies
+app.get('/content/movies', (req, res) => {
+  res.send(db.content.movies)
+})
 // return details of a movie
-app.get('/content/movie/details/:title', (req, res) => {
-  res.send(db.content.movie[0])
+app.get('/content/movie/details/:id', (req, res) => {
+  const id = req.params.id
+  res.send(db.content.movie[id])
 })
 // return a specific genre
 app.get('/content/movies?:genre', (req, res, next) => {
@@ -45,10 +50,30 @@ app.get('/content/movies?:genre', (req, res, next) => {
   if(genere === 'action') res.send(db.content.genre.action)
 })
 // return director
-app.get('/content/movies/filmography/:name', (req, res) => {
-  // return the entire actor array
+app.get('/content/movies/filmography/:title/:name', (req, res) => {
+  // return the entire filmography array containing actors and director values
   //! req.params.name --- to access the name
-  res.send(db.content.filmography.actor)
+  
+  // store url parameters
+  let { title, name} = req.params;
+  
+  if(title === 'director'){
+    db.content.filmography.director.forEach(director=>{
+      if(director.name === name){
+        res.send(director)
+      }
+    })
+  }else if(title === 'actor'){
+    db.content.filmography.actor.forEach(actor=>{
+      if(actor.name === name){
+        res.send(actor)
+      }
+    })
+  }
+  // if parameter passed does not exist return the entire filmography array
+  else{
+    res.send(db.content.filmography)
+  }
 })
 // register a user
 app.post('/content/account/register', (req, res) => {
