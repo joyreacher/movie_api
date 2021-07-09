@@ -91,56 +91,56 @@ const db = {
     genre: {
       'sci-fi': [
         {
-          "title": 'Godzilla',
-          "url": ''
+          title: 'Godzilla',
+          url: ''
         },
         {
-          "title": 'Star Trek',
-          "url": ''
+          title: 'Star Trek',
+          url: ''
         },
         {
-          "title": 'Godzilla Vs. Kong',
-          "url": ''
+          title: 'Godzilla Vs. Kong',
+          url: ''
         }
       ],
-      "action": [
+      action: [
         {
-          "title": 'The Fast & The Furious',
-          "url": ''
+          title: 'The Fast & The Furious',
+          url: ''
         },
         {
-          "title": 'Wrath of Man',
-          "url": ''
+          title: 'Wrath of Man',
+          url: ''
         },
         {
-          "title": 'Rampage',
-          "url": ''
+          title: 'Rampage',
+          url: ''
         }
       ],
-      "drama": [
+      drama: [
         {
-          "title": 'Gone With The Wind',
-          "url": ''
+          title: 'Gone With The Wind',
+          url: ''
         }
       ],
-      "horror": [
+      horror: [
         {
-          "title": 'The Unholy',
-          "url": 'localhost:3000/content/movie/details/:id'
+          title: 'The Unholy',
+          url: 'localhost:3000/content/movie/details/:id'
         }
       ],
-      "comedy": [
+      comedy: [
         {
-          "title": 'The Croods: A New Age',
-          "url": ''
+          title: 'The Croods: A New Age',
+          url: ''
         },
         {
-          "title": 'Cruella',
-          "url": ''
+          title: 'Cruella',
+          url: ''
         },
         {
-          "title": 'Sonic the Hedgehog',
-          "url": ''
+          title: 'Sonic the Hedgehog',
+          url: ''
         }
       ]
     },
