@@ -20,7 +20,6 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-
 // return the entire db object
 app.get('/', (req, res) => {
   // ? res.send(db.content.movies[0])
@@ -131,7 +130,6 @@ app.delete('/content/movies/mymovies', (req, res) => {
     }
   })
 })
-
 
 /*
   ACCOUNT
