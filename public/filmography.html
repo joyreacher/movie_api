@@ -63,6 +63,7 @@
                           <h1 class="display-3">The Filmography Object</h1>
                           <sup class="text-info">*This is just an example object and will be updated soon.</sup>
                           <p>This resource uses <code>GET</code> method to return a list of directors and actors</p>
+                          <p>*This endpoint requires that you enter the title and name parameter in the URL exactly the way it is written in the db object. <a target="_blank" href="./img/postman-tests/5-:content:movies:filmography:[title]:[name]-return director.png">See example response here</a></p>
                           <code>app.get('/content/movies/filmography/:title/:name', (req, res) => {
                             let { title, name} = req.params;
                             if(title === 'director'){
