@@ -54,8 +54,8 @@ app.get('/content/movies/:genre', (req, res) => {
     case 'action':
       res.send(db.content.genre.action)
       break
-    case 'sci-fi':
-      res.send(db.content.genre.sci - fi)
+    case 'scifi':
+      res.send(db.content.genre.scifi)
       break
     case 'drama':
       res.send(db.content.genre.drama)
