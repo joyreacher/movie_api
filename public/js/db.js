@@ -91,32 +91,56 @@ const db = {
     genre: {
       'sci-fi': [
         {
-          title: 'Godzilla',
-          url: ''
+          "title": 'Godzilla',
+          "url": ''
+        },
+        {
+          "title": 'Star Trek',
+          "url": ''
+        },
+        {
+          "title": 'Godzilla Vs. Kong',
+          "url": ''
         }
       ],
-      action: [
+      "action": [
         {
-          title: 'The Fast & The Furious',
-          url: ''
+          "title": 'The Fast & The Furious',
+          "url": ''
+        },
+        {
+          "title": 'Wrath of Man',
+          "url": ''
+        },
+        {
+          "title": 'Rampage',
+          "url": ''
         }
       ],
-      drama: [
+      "drama": [
         {
-          title: 'Gone With The Wind',
-          url: ''
+          "title": 'Gone With The Wind',
+          "url": ''
         }
       ],
-      horror: [
+      "horror": [
         {
-          title: 'The Unholy',
-          url: 'localhost:3000/content/movie/details/:id'
+          "title": 'The Unholy',
+          "url": 'localhost:3000/content/movie/details/:id'
         }
       ],
-      comedy: [
+      "comedy": [
         {
-          title: 'The Croods: A New Age',
-          url: ''
+          "title": 'The Croods: A New Age',
+          "url": ''
+        },
+        {
+          "title": 'Cruella',
+          "url": ''
+        },
+        {
+          "title": 'Sonic the Hedgehog',
+          "url": ''
         }
       ]
     },
@@ -300,7 +324,7 @@ const db = {
       {
         title: 'Rampage',
         description: 'Buy any quality, get every quality: All qualities up to 4K UHD included with purchase. When a genetic experiment goes awry, it unleashes super creatures that rampage the city. Scientist Davis races to secure an antidote to try to save the ape that was once his friend.',
-        genre: 'comedy',
+        genre: 'action',
         rating: '🍅 🍅 🍅    ',
         filmography: {
           cast: [
