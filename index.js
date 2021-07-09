@@ -27,7 +27,6 @@ app.get('/users', function (req, res) {
   res.send('Successful GET request return data on all users object')
 })
 
-
 app.get('/content', function (req, res) {
   res.send('Successful GET request. Return all movie and filmography data.')
 })
@@ -52,7 +51,7 @@ app.post('/content/movies/mymovies', (req, res) => {
 })
 
 app.delete('/content/movies/mymovies', (req, res) => {
-  res.send("Successful DELETE request to remove a movie from mymovies array.")
+  res.send('Successful DELETE request to remove a movie from mymovies array.')
 })
 
 /*
