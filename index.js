@@ -43,31 +43,26 @@ app.get('/content/movie/details/:id', (req, res) => {
   res.send(db.content.movie[id])
 })
 // return a specific genre
-/*
-  ?(/content/movies?:genre) --CONFLICTS WITH (content/movies)
-  !SWITCH FROM: req.query.genre
-  ?TO: req.params.genre
-*/
 app.get('/content/movies/:genre', (req, res) => {
   // get the value from the url
-  let genre = req.params.genre
+  const genre = req.params.genre
   // return the array of objects with title and url values
-  switch(genre){
+  switch (genre) {
     case 'comedy':
-      res.send(db.content.genre.comedy);
-      break;
+      res.send(db.content.genre.comedy)
+      break
     case 'action':
-      res.send(db.content.genre.action);
-      break;
+      res.send(db.content.genre.action)
+      break
     case 'sci-fi':
-      res.send(db.content.genre.sci-fi);
-      break;
+      res.send(db.content.genre.sci - fi)
+      break
     case 'drama':
-      res.send(db.content.genre.drama);
-      break;
+      res.send(db.content.genre.drama)
+      break
     case 'horror':
-      res.send(db.content.genre.horror);
-      break;
+      res.send(db.content.genre.horror)
+      break
   }
 })
 // return director

@@ -63,11 +63,9 @@
                           <h1 class="display-3">The Genre Object</h1>
                           <sup class="text-info">*This object will be updated with more data soon</sup>
                           <p>This resource uses <code>GET</code> method to return a list of movie titles and their respective URL</p>
-                          <code>app.get('/content/movies?:genre', (req, res, next) => {
-                            // get the value from the url
-                            const genere = req.query.genre
-                            // return the array of objects with title and url values
-                            if(genere === 'action') res.send(db.content.genre.action)
+                          <code>app.get('/content/movies/:genre', (req, res) => {
+                            const genre = req.query.genre
+                            if(genre === 'action') res.send(db.content.genre.action)
                           })</code>
                         </div>
                         
