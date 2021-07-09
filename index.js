@@ -20,28 +20,32 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-// returns main users object
-app.get('/users', function (req, res) {
-  res.json(db.users)
-})
-// return main content object
-app.get('/content', function (req, res) {
-  res.json(db.content)
-})
+
 // return the entire db object
 app.get('/', (req, res) => {
   // ? res.send(db.content.movies[0])
   res.send(db)
 })
+
+// returns main users object
+app.get('/users', function (req, res) {
+  res.json(db.users)
+})
+
+// return main content object
+app.get('/content', function (req, res) {
+  res.json(db.content)
+})
+
+/*
+  MOVIES
+*/
+
 // return all movies
 app.get('/content/movies', (req, res) => {
   res.send(db.content.movies)
 })
-// return details of a movie
-app.get('/content/movie/details/:id', (req, res) => {
-  const id = req.params.id
-  res.send(db.content.movie[id])
-})
+
 // return a specific genre
 app.get('/content/movies/:genre', (req, res) => {
   // get the value from the url
@@ -65,7 +69,8 @@ app.get('/content/movies/:genre', (req, res) => {
       break
   }
 })
-// return director
+
+// return director/actor -- NAME HAS TO BE WRITTEN EXACTLY THE WAY IT IS IN db.content.filmography
 app.get('/content/movies/filmography/:title/:name', (req, res) => {
   //! req.params.name --- to access the name
 
@@ -90,6 +95,47 @@ app.get('/content/movies/filmography/:title/:name', (req, res) => {
     res.send(db.content.filmography)
   }
 })
+
+// add a movie to a users favorite movies
+// RETURNED DATA IS HARD CODED
+app.post('/content/movies/mymovies', (req, res) => {
+  // data that is sent through an input field assigned to values
+  const { title } = req.body
+  // search through the movies array
+  db.content.movies.forEach(movie => {
+    // if that movie exists in the array
+    if (movie.title === title) {
+      // add it to mymovies
+      db.users.myinfo[0].mymovies.push({
+        title: title,
+        // get the url from the movies array-object
+        url: movie.url
+      })
+      res.send(db.users.myinfo[0])
+    }
+  })
+})
+
+// remove a movie from the users favorite movies
+// LOGIC STILL NEEDS TO BE APPLIED
+app.delete('/content/movies/mymovies', (req, res) => {
+  const { title, description } = req.body
+  // will need to add form encodeurl/escape special characters
+  // express-validator = ?
+  // res.json(`<h1>deleting ${title}</h1>`)
+
+  // iterate through each movie
+  db.users.myinfo[0].mymovies.forEach(movie => {
+    if (movie.title === title) {
+      res.send(`remove ${title}`)
+    }
+  })
+})
+
+
+/*
+  ACCOUNT
+*/
 // register a user
 app.post('/content/account/register', (req, res) => {
   // store what is entered through a form field
@@ -106,7 +152,9 @@ app.post('/content/account/register', (req, res) => {
   // returns the added user object (the last object in the array)
   res.json(db.users.myinfo[db.users.myinfo.length - 1])
 })
+
 // unregister user
+// LOGIC REMOVING USER STILL NEEDED
 app.delete('/content/account/unregister/:email', (req, res) => {
   // get the email value (req.body.email)
   // compare email value to (db.users.myinfo[iterator].email) array collection
@@ -128,39 +176,14 @@ app.put('/content/account/myinfo?:name', (req, res) => {
     }
   })
 })
-// add a movie to a users favorite movies
-app.post('/content/movies/mymovies', (req, res) => {
-  // will need to add form encodeurl/escape special characters --- express-validator = ?
 
-  // data that is sent through an input field assigned to values
-  const { title } = req.body
-  // search through the movies array
-  db.content.movies.forEach(movie => {
-    // if that movie exists in the array
-    if (movie.title === title) {
-      // add it to mymovies
-      db.users.myinfo[0].mymovies.push({
-        title: title,
-        // get the url from the movies array-object
-        url: movie.url
-      })
-      res.send(db.users.myinfo[0])
-    }
-  })
-})
-// remove a movie from the users favorite movies
-app.delete('/content/movies/mymovies', (req, res) => {
-  const { title, description } = req.body
-  // will need to add form encodeurl/escape special characters
-  // express-validator = ?
-  // res.json(`<h1>deleting ${title}</h1>`)
-
-  // iterate through each movie
-  db.users.myinfo[0].mymovies.forEach(movie => {
-    if (movie.title === title) {
-      res.send(`remove ${title}`)
-    }
-  })
+/*
+  MOVIE
+*/
+// return details of a movie
+app.get('/content/movie/details/:id', (req, res) => {
+  const id = req.params.id
+  res.send(db.content.movie[id])
 })
 
 app.use(express.static('public', options))
