@@ -89,7 +89,7 @@ const db = {
       }
     ],
     genre: {
-      'sci-fi': [
+      scifi: [
         {
           title: 'Godzilla',
           url: ''
