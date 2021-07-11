@@ -42,6 +42,20 @@ app.delete('/movies/:movieid', (req, res)=>{
   res.send('DELETE a movie resource.')
 })
 
+/**
+  USERS
+ */
+  app.get('/users/:id/movies', (req, res)=>{
+    res.send('GET a the movies of a given user.')
+  })
+  
+  app.post('/users/:id/movies', (req, res)=>{
+    res.send('POST a new movie to the users favorites.')
+  })
+  app.put('/users/:id/movies/:movieid', (req, res)=>{
+    res.send('POST a new movie to the users favorites.')
+  })
+  
 app.use(express.static('/public', options))
 app.use((err, req, res, next) => {
   console.log(err.stack)
