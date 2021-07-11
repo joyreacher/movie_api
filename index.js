@@ -30,6 +30,14 @@ app.get('/movies/:movieid', (req, res)=>{
   res.send('GET all information based on movie id')
 })
 
+app.get('/movies/genre', (req, res)=>{
+  res.send('GET a list of all movie genres.')
+})
+
+app.get('/movies/genre/:genre', (req, res)=>{
+  res.send('GET a list of all movies of a specific genre.')
+})
+
 app.post('/movies', (req, res)=>{
   res.send('POST create a movie resource.')
 })
