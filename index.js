@@ -56,6 +56,29 @@ app.delete('/movies/:movieid', (req, res)=>{
     res.send('POST a new movie to the users favorites.')
   })
   
+  /**
+  DIRECTORS
+ */
+  app.get('/directors', (req, res)=>{
+    res.send('GET ')
+  })
+  
+  app.get('/directors/:directorid', (req, res)=>{
+    res.send('GET all information about a director based on id.')
+  })
+  
+  app.post('/directors', (req, res)=>{
+    res.send('POST a new director resource.')
+  })
+  
+  app.put('/directors/:directorid', (req, res)=>{
+    res.send('UPDATE a director resource.')
+  })
+  
+  app.delete('/directors/:directorid', (req, res)=>{
+    res.send('DELETE a director resource.')
+  })
+  
 app.use(express.static('/public', options))
 app.use((err, req, res, next) => {
   console.log(err.stack)
