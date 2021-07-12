@@ -19,64 +19,75 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Successful GET request return data on all movies and user information.')
+/**
+  MOVIES RESOURCE
+ */
+app.get('/movies', (req, res)=>{
+  res.send('GET request for a collection of movies.')
 })
 
-app.get('/users', function (req, res) {
-  res.send('Successful GET request return data on all users object')
+app.get('/movies/:movieid', (req, res)=>{
+  res.send('GET all information based on movie id')
 })
 
-app.get('/content', function (req, res) {
-  res.send('Successful GET request. Return all movie and filmography data.')
+app.get('/movies/genre', (req, res)=>{
+  res.send('GET a list of all movie genres.')
 })
 
-/*
-  MOVIES
-*/
-app.get('/content/movies', (req, res) => {
-  res.send('Successful GET request returns all movies with its url.')
+app.get('/movies/genre/:genre', (req, res)=>{
+  res.send('GET a list of all movies of a specific genre.')
 })
 
-app.get('/content/movies/:genre', (req, res) => {
-  res.send('Successful GET request returns all movies based on their genre value.')
+app.post('/movies', (req, res)=>{
+  res.send('POST create a movie resource.')
 })
 
-app.get('/content/movies/filmography/:title/:name', (req, res) => {
-  res.send('Successful GET request returns actor or director by name')
+app.put('/movies/:movieid', (req, res)=>{
+  res.send('UPDATE a movie resource.')
 })
 
-app.post('/content/movies/mymovies', (req, res) => {
-  res.send('Successful POST request to update the mymovies list.')
+app.delete('/movies/:movieid', (req, res)=>{
+  res.send('DELETE a movie resource.')
 })
 
-app.delete('/content/movies/mymovies', (req, res) => {
-  res.send('Successful DELETE request to remove a movie from mymovies array.')
-})
-
-/*
-  ACCOUNT
-*/
-app.post('/content/account/register', (req, res) => {
-  res.send('Successful POST request to add a user.')
-})
-
-app.delete('/content/account/unregister/:email', (req, res) => {
-  res.send('Successful DELETE request to remove a user.')
-})
-
-app.put('/content/account/myinfo?:name', (req, res) => {
-  res.send('Successful PUT request to change a users username.')
-})
-
-/*
-  MOVIE
-*/
-app.get('/content/movie/details/:id', (req, res) => {
-  res.send('Successful GET request to retrieve detail about a specific movie.')
-})
-
-app.use(express.static('public', options))
+/**
+  USERS
+ */
+  app.get('/users/:id/movies', (req, res)=>{
+    res.send('GET a the movies of a given user.')
+  })
+  
+  app.post('/users/:id/movies', (req, res)=>{
+    res.send('POST a new movie to the users favorites.')
+  })
+  app.put('/users/:id/movies/:movieid', (req, res)=>{
+    res.send('POST a new movie to the users favorites.')
+  })
+  
+  /**
+  DIRECTORS
+ */
+  app.get('/directors', (req, res)=>{
+    res.send('GET ')
+  })
+  
+  app.get('/directors/:directorid', (req, res)=>{
+    res.send('GET all information about a director based on id.')
+  })
+  
+  app.post('/directors', (req, res)=>{
+    res.send('POST a new director resource.')
+  })
+  
+  app.put('/directors/:directorid', (req, res)=>{
+    res.send('UPDATE a director resource.')
+  })
+  
+  app.delete('/directors/:directorid', (req, res)=>{
+    res.send('DELETE a director resource.')
+  })
+  
+app.use(express.static('/public', options))
 app.use((err, req, res, next) => {
   console.log(err.stack)
   res.status(500).send('We have a problem')
