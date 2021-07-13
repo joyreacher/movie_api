@@ -9,7 +9,7 @@ Simple API that returns information about movies using Express.
 #### Get all movies
 
 ```http
-  GET /content/movies
+  GET /movies
 ```
 
 | Parameter | Type     | Description                |
@@ -19,91 +19,56 @@ Simple API that returns information about movies using Express.
 #### Get movie
 
 ```http
-  GET /api/movies/${genre}
+  GET /moves/:movieid
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `genre`      | `string` | Avaliable values: scifi, action, comedy, drama  |
+| `movieid`      | `number` | Id corresponding to a movie resource  |
 
-#### Get director
+#### Get All directors
 
 ```http
-  GET /api/movies/filmography/${title}/${name}
+  GET /directors
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `title`      | `string` | Value can be 'director' or 'actor' |
-| `name`      | `string` | Value is case/space sensitive |
+| `none`      | `NA` | Return all directors |
 
 
 #### Post favorite movie
 
 ```http
-  POST /content/movies/mymovies
+  POST /users/:id/movies
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `title`      | `string` | Value is case/space sensitive |
+| `:id`      | `number` | Post a new movie resource |
 
 
-#### Remove favorite movie
+#### Remove a movie resource
 
 ```http
-  DELETE /content/movies/mymovies
+  DELETE /movies/:movieid
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `title`      | `string` | Value is case/space sensitive |
+| `:moviid`      | `number` | Remove a movie resource using its corresponding resource ID |
 
 
-#### Get movie details
+#### Get genre details
 
 ```http
-  GET /content/movie/details
+  GET /movies/genre/:genre
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `number` | Value corredsponds to position in array |
+| `:genre`      | `string` | Return movies based on genre (Action, Thriller, Comedy, Sci-Fi) |
 
-
-#### Register user
-
-```http
-  POST /content/account/register
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `name`      | `string` | Users 'name' value |
-| `email`      | `string` | Users 'email' value |
-| `password`      | `string` | Users 'password' value IN PLAIN TEXT|
-
-
-#### Delete a user based on email
-
-```http
-  DELETE /content/account/register
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `email`      | `string` | Users 'email' value |
-
-
-#### Update a users username
-
-```http
-  PUT /content/account/myinfo?${name}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `name`      | `string` | Value is used to search array of users, to update 'username' |
 
 
 ## Tech Stack
