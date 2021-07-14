@@ -60,6 +60,7 @@ app.delete('/movies/:movieid', (req, res)=>{
 /**
   USERS
  */
+  //GET ALL USERS
   app.get('/users', (req, res)=>{
     //return all users
     Users.find()
@@ -69,6 +70,7 @@ app.delete('/movies/:movieid', (req, res)=>{
         res.status(500).send('Error: ' + err)
       })
   })
+  //ADD A USER
   app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username })
       .then((user) => {
@@ -93,6 +95,18 @@ app.delete('/movies/:movieid', (req, res)=>{
         console.error(error);
         res.status(500).send('Error: ' + error);
       });
+  })
+  app.get('/users/:username', (req, res) => {
+    console.log(req.params.username)
+    Users.findOne({username: req.params.username})
+      .then((user)=>{
+        console.log(user)
+        res.json(user)
+      })
+      .catch((error)=>{
+        console.log(error)
+        res.status(500).send('Error: ' + error)
+      })
   })
   
   app.get('/users/:id/movies', (req, res)=>{
