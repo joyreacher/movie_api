@@ -33,8 +33,18 @@ app.get('/movies', (req, res)=>{
   // res.json(Movies)
 })
 
-app.get('/movies/:movieid', (req, res)=>{
-  res.send('GET all information based on movie id')
+app.get('/movies/:title', (req, res)=>{
+  console.log(req.params.title)
+  Movies.findOne({Title: req.params.title})
+    .then((movie)=>{
+      console.log(movie)
+      res.json(movie)
+    })
+    .catch((error)=>{
+      console.log(error)
+      res.status(500).send('Error: ' + error)
+    })
+  // res.send('GET all information based on movie id')
 })
 
 app.get('/movies/genre', (req, res)=>{
