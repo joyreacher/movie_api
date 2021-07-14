@@ -60,12 +60,14 @@ app.delete('/movies/:movieid', (req, res)=>{
 /**
   USERS
  */
-  app.get('/users/:id/movies', (req, res)=>{
-    res.send('GET a the movies of a given user.')
-  })
-  
-  app.post('/users/:id/movies', (req, res)=>{
-    res.send('POST a new movie to the users favorites.')
+  app.get('/users', (req, res)=>{
+    //return all users
+    Users.find()
+      .then((users)=>{res.status(201).json(users)})
+      .catch((error)=>{
+        console.log(error)
+        res.status(500).send('Error: ' + err)
+      })
   })
   app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username })
@@ -92,6 +94,15 @@ app.delete('/movies/:movieid', (req, res)=>{
         res.status(500).send('Error: ' + error);
       });
   })
+  
+  app.get('/users/:id/movies', (req, res)=>{
+    res.send('GET a the movies of a given user.')
+  })
+  
+  app.post('/users/:id/movies', (req, res)=>{
+    res.send('POST a new movie to the users favorites.')
+  })
+  
   app.put('/users/:id/movies/:movieid', (req, res)=>{
     res.send('POST a new movie to the users favorites.')
   })
