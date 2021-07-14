@@ -44,11 +44,16 @@ app.get('/movies/:title', (req, res)=>{
       console.log(error)
       res.status(500).send('Error: ' + error)
     })
-  // res.send('GET all information based on movie id')
 })
 
-app.get('/movies/genre', (req, res)=>{
-  res.send('GET a list of all movie genres.')
+app.get('/genre/:genre', (req, res)=>{
+  Movies.find({"Genre.Name": req.params.genre})
+    .then((movies)=>{
+      res.json(movies)
+    })
+    .catch((err)=>{
+      res.status(500).send('Error: ' + err)
+    })
 })
 
 app.get('/movies/genre/:genre', (req, res)=>{
