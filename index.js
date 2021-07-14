@@ -1,5 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+const Movies = Models.Movie;
+const Users = Models.User;
+mongoose.connect('mongodb+srv://Brian:Takka__411@cluster0.ganu8.mongodb.net/myFlix?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongodb+srv://Brian:<password>@cluster0.ganu8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 const express = require('express'); const morgan = require('morgan')
 const app = express()
 const options = {
@@ -23,7 +29,8 @@ app.use(express.json())
   MOVIES RESOURCE
  */
 app.get('/movies', (req, res)=>{
-  res.send('GET request for a collection of movies.')
+  Movies.find().then(title=>res.json(title))
+  // res.json(Movies)
 })
 
 app.get('/movies/:movieid', (req, res)=>{
@@ -59,6 +66,31 @@ app.delete('/movies/:movieid', (req, res)=>{
   
   app.post('/users/:id/movies', (req, res)=>{
     res.send('POST a new movie to the users favorites.')
+  })
+  app.post('/users', (req, res) => {
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          Users
+            .create({
+              username: req.body.Username,
+              password: req.body.Password,
+              email: req.body.Email,
+              birthday: req.body.Birthday
+            })
+            .then((user) =>{res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          })
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
   })
   app.put('/users/:id/movies/:movieid', (req, res)=>{
     res.send('POST a new movie to the users favorites.')
