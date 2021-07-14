@@ -96,6 +96,8 @@ app.delete('/movies/:movieid', (req, res)=>{
         res.status(500).send('Error: ' + error);
       });
   })
+  
+  // GET A USER BASED ON USERNAME
   app.get('/users/:username', (req, res) => {
     console.log(req.params.username)
     Users.findOne({username: req.params.username})
@@ -115,6 +117,28 @@ app.delete('/movies/:movieid', (req, res)=>{
   
   app.post('/users/:id/movies', (req, res)=>{
     res.send('POST a new movie to the users favorites.')
+  })
+  
+  app.put('/users/:username', (req, res)=>{
+    console.log(req.body)
+    Users.findOneAndUpdate( {username: req.params.username }, {$set:
+        {
+          username: req.body.Username,
+          password: req.body.Password,
+          email: req.body.Email,
+          birth_date: req.body.Birthday
+        }
+      },
+      { new: true },
+      (err, updatedUser)=>{
+        if(err){
+          console.log(err)
+          res.status(500).send('Error:' + err)
+        }else{
+          res.json(updatedUser)
+        }
+      }
+    )
   })
   
   app.put('/users/:id/movies/:movieid', (req, res)=>{
