@@ -70,6 +70,25 @@ app.delete('/movies/:movieid', (req, res)=>{
         res.status(500).send('Error: ' + err)
       })
   })
+  // GET A USER BASED ON USERNAME
+  app.get('/users/:username', (req, res) => {
+    console.log(req.params.username)
+    Users.findOne({username: req.params.username})
+      .then((user)=>{
+        console.log(user)
+        res.json(user)
+      })
+      .catch((error)=>{
+        console.log(error)
+        res.status(500).send('Error: ' + error)
+      })
+  })
+  
+  app.get('/users/:id/movies', (req, res)=>{
+    res.send('GET a the movies of a given user.')
+  })
+  
+  
   //ADD A USER
   app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username })
@@ -97,27 +116,28 @@ app.delete('/movies/:movieid', (req, res)=>{
       });
   })
   
-  // GET A USER BASED ON USERNAME
-  app.get('/users/:username', (req, res) => {
-    console.log(req.params.username)
-    Users.findOne({username: req.params.username})
-      .then((user)=>{
-        console.log(user)
-        res.json(user)
-      })
-      .catch((error)=>{
-        console.log(error)
-        res.status(500).send('Error: ' + error)
-      })
+  // ADD A MOVIE TO USERS FAVORITES
+  app.post('/users/:username/movies/:movieid', (req, res)=>{
+    console.log(req.body)
+    Users.findOneAndUpdate( { username: req.body.username },{
+      $push: { favorite_movies: req.body.movieid}
+      },
+      {new: true},
+      (err, updatedUser)=>{
+        if(err){
+          console.log(err)
+          res.status(500).send('Error: ' + err)
+        }else{
+          res.json(updatedUser)
+        }
+      }
+    )
   })
   
-  app.get('/users/:id/movies', (req, res)=>{
-    res.send('GET a the movies of a given user.')
-  })
   
-  app.post('/users/:id/movies', (req, res)=>{
-    res.send('POST a new movie to the users favorites.')
-  })
+  // app.post('/users/:id/movies', (req, res)=>{
+  //   res.send('POST a new movie to the users favorites.')
+  // })
   
   app.put('/users/:username', (req, res)=>{
     console.log(req.body)
