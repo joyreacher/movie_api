@@ -28,16 +28,14 @@ app.use(express.json())
 /**
   MOVIES RESOURCE
  */
+ //GET ALL MOVIES
 app.get('/movies', (req, res)=>{
   Movies.find().then(title=>res.json(title))
-  // res.json(Movies)
 })
-
+//GET A MOVIE BY TITLE
 app.get('/movies/:title', (req, res)=>{
-  console.log(req.params.title)
   Movies.findOne({Title: req.params.title})
     .then((movie)=>{
-      console.log(movie)
       res.json(movie)
     })
     .catch((error)=>{
@@ -45,7 +43,7 @@ app.get('/movies/:title', (req, res)=>{
       res.status(500).send('Error: ' + error)
     })
 })
-
+//GET A LIST OF MOVIES BY GENRE
 app.get('/genre/:genre', (req, res)=>{
   Movies.find({"Genre.Name": req.params.genre})
     .then((movies)=>{
@@ -56,12 +54,24 @@ app.get('/genre/:genre', (req, res)=>{
     })
 })
 
-app.get('/movies/genre/:genre', (req, res)=>{
-  res.send('GET a list of all movies of a specific genre.')
-})
-
 app.post('/movies', (req, res)=>{
-  res.send('POST create a movie resource.')
+  console.log(req.body)
+  Movies.create(
+    {
+      Title: req.body.Title,
+      Description: req.body.Description,
+      Genre: {"Name":req.body.Genre, "Description": ""},
+      Director: { "Name": req.body.Director, "Bio":"This is a test bio"},
+      ImagePath: req.body.Image,
+      Featured: req.body.Featured
+    }
+  )
+  .then((movie) =>{res.status(201).json(movie) })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).send('Error: ' + error);
+  })
+  // res.send('POST create a movie resource.')
 })
 
 app.put('/movies/:movieid', (req, res)=>{
