@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genre = Models.Genre;
 mongoose.connect('mongodb+srv://Brian:Takka__411@cluster0.ganu8.mongodb.net/myFlix?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 // mongodb+srv://Brian:<password>@cluster0.ganu8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 const express = require('express'); const morgan = require('morgan')
@@ -32,6 +33,11 @@ app.use(express.json())
 app.get('/movies', (req, res)=>{
   Movies.find().then(title=>res.json(title))
 })
+
+app.get('/genres', (req, res)=>{
+  Genre.find().then(genre=>res.json(genre))
+})
+
 //GET A MOVIE BY TITLE
 app.get('/movies/:title', (req, res)=>{
   Movies.findOne({Title: req.params.title})

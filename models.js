@@ -1,4 +1,10 @@
 const mongoose = require('mongoose')
+const { Schema } = mongoose;
+
+const genreSchema = new Schema({
+  Name: String,
+  Description: String
+})
 
 let movieSchema = mongoose.Schema({
   Title: {type: String, required: true},
@@ -26,6 +32,8 @@ let userSchema = mongoose.Schema({
 
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
+let Genre = mongoose.model('Modal', genreSchema, 'genre');
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+module.exports.Genre = Genre;
