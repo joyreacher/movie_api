@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 const genreSchema = new Schema({
   Name: [{
     type: mongoose.Schema.Types.String,
-    ref: 'Movie'
+    ref: 'Genre'
   }],
   Description: [{
     type: mongoose.Schema.Types.String,
-    ref: 'Movie'
+    ref: 'Genre'
   }]
 })
 
