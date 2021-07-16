@@ -2,16 +2,40 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
 const genreSchema = new Schema({
+  // Name: String, 
+  // Description: String
+  Name: [{
+    type: mongoose.Schema.Types.String,
+    ref: 'Genre'
+  }],
+  Description: [{
+    type: mongoose.Schema.Types.String,
+    ref: 'Genre'
+  }]
+})
+
+const directorSchema = new Schema({
   Name: String,
-  Description: String
+  Bio: String, 
+  Birth: Date,
+  Death: Date
 })
 
 let movieSchema = mongoose.Schema({
+  
   Title: {type: String, required: true},
   Description: {type: String, required: true},
+  // Genre: {Name: String, Description: String},
   Genre: {
-    Name: String,
-    Description: String
+    Name: [{
+      type: mongoose.Schema.Types.String,
+      ref: 'Movie'
+    }]
+    ,
+    Description: [{
+      type: mongoose.Schema.Types.String,
+      ref: 'Movie'
+    }] 
   },
   Director: {
     Name: String,
@@ -30,10 +54,12 @@ let userSchema = mongoose.Schema({
   favorite_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
 
-let Movie = mongoose.model('Movie', movieSchema);
+let Movie = mongoose.model('Movie', movieSchema, 'movies');
 let User = mongoose.model('User', userSchema);
-let Genre = mongoose.model('Modal', genreSchema, 'genre');
+let Genre = mongoose.model('Modal', genreSchema, 'genres');
+let Director = mongoose.model('Director', directorSchema, 'directors');
 
 module.exports.Movie = Movie;
 module.exports.User = User;
 module.exports.Genre = Genre;
+module.exports.Director = Director;
