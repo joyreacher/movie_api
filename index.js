@@ -28,11 +28,36 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 /**
+  Return a list 
+    of ALL movies to the user
+  Return data 
+    ( description, genre, director, image URL, whether is's feature or not (bool))
+    about a single movie by the title to the user
+  Return data about a director
+    (bio, birth year, death year)
+    by Name
+  Allow new users to register
+  Allow users to 
+    update their user info (username, password, email, date of birth)
+  Allow users to 
+    add a movie to ther list of favorites
+  ALlow users to 
+    remove a movie from their list of favorites
+  Allow existing users 
+    to deregister
+ */
+
+
+/**
   MOVIES RESOURCE
  */
  //GET ALL MOVIES
 app.get('/movies', (req, res)=>{
-  Movies.find().then(title=>res.json(title))
+  Movies.find()
+    .then(movie=>{
+      movie
+      res.json(movie)
+    })
 })
 
 /* 
@@ -45,8 +70,8 @@ app.get('/movies/:title', (req, res)=>{
       Genre.findOne({Name: movie.Genre.Name})
       .populate('Genre').exec((err, genre) => {
         Object.keys(movie.Genre).forEach(function(key){
-          // console.log(movie.Genre[key])
-          // console.log(genre[key])
+          
+          //IF THE GENRE IN MOVIES DOESNT EQUAL GENRE NAME FROM CALLBACK FOR GENRE COLLECTION
           if(movie.Genre[key] != genre.Name){
             console.log("🍅")
             // console.log(movie.Genre.Description)
@@ -156,16 +181,10 @@ app.put('/movies/:title', (req, res)=>{
       {
         Title: req.params.title,
         Description: "During a nuclear test, the French government inadvertently mutates a lizard nest; years later, a giant lizard makes its way to New York City. Dr. Niko Tatopoulos, an expert on the effects of radiation on animals, is sent by the U.S. government to study the beast. When the creature, dubbed 'Godzilla' by news outlets, emerges, a massive battle with the military begins. To make matters worse, Niko discovers that Godzilla has laid a nest of 200 eggs, which are ready to hatch.",
-        Genre: {},
-        Director: {
-          Name: "Roland Emmerich",
-          Bio: "Roland Emmerich (German pronunciation: [ˈʁoːlant ˈɛməʁɪç] (About this soundlisten); born 10 November 1955) is a German film director, screenwriter and producer, widely known for his science fiction films. His films, most of which are English-language Hollywood productions, have made more than $3 billion worldwide, including just over $1 billion in the United States, making him the country's 15th-highest-grossing director of all time.[1][2] He began his work in the film industry by directing the film The Noah's Ark Principle (1984) as part of his university thesis and also co-founded Centropolis Entertainment in 1985 with his sister. He is also known for directing the films such as Universal Soldier (1992), Stargate (1994), Independence Day (1996), Godzilla (1998), The Patriot (2000), The Day After Tomorrow (2004), 2012 (2009), and most recently, Midway (2019). He is a collector of art and an active campaigner for the LGBT community, and is openly gay.[3]",
-          Birth: "1995",
-          Death: ""
-        },
+        Genre:{"Name":"Sci-Fi"},
+        Director: {"Name": "Roland Emmerich"},
         ImagePath:"godzilla.png",
         Featured: false
-        
       }
     },
     { new: true },
