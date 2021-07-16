@@ -2,21 +2,27 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
 const genreSchema = new Schema({
-  // Name: String, 
-  // Description: String
   Name: [{
     type: mongoose.Schema.Types.String,
-    ref: 'Genre'
+    ref: 'Movie'
   }],
   Description: [{
     type: mongoose.Schema.Types.String,
-    ref: 'Genre'
+    ref: 'Movie'
   }]
 })
 
 const directorSchema = new Schema({
-  Name: String,
-  Bio: String, 
+  // Name: String,
+  Name: {
+    type: mongoose.Schema.Types.String,
+    ref: 'Director'
+  },
+  // Bio: String, 
+  Bio: {
+    type: mongoose.Schema.Types.String,
+    ref: 'Director'
+  },
   Birth: Date,
   Death: Date
 })
@@ -25,21 +31,27 @@ let movieSchema = mongoose.Schema({
   
   Title: {type: String, required: true},
   Description: {type: String, required: true},
-  // Genre: {Name: String, Description: String},
   Genre: {
-    Name: [{
+    Name: {
       type: mongoose.Schema.Types.String,
-      ref: 'Movie'
-    }]
-    ,
-    Description: [{
+      ref: 'Genre'
+    },
+    Description: {
       type: mongoose.Schema.Types.String,
-      ref: 'Movie'
-    }] 
+      ref: 'Genre'
+    } 
   },
   Director: {
-    Name: String,
-    Bio: String
+    // Name: String,
+    Name: {
+      type: mongoose.Schema.Types.String,
+      ref: 'Director'
+    },
+    // Bio: String
+    Bio: {
+      type: mongoose.Schema.Types.String,
+      ref: 'Director'
+    },
   },
   Actors: [String],
   ImagePath: String,

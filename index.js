@@ -42,18 +42,31 @@ app.get('/movies', (req, res)=>{
 app.get('/movies/:title', (req, res)=>{
   Movies.findOne({Title: req.params.title})
   .then((movie)=>{
-      Genre.findOne({Name: movie.Genre.Name[0]})
-      .populate('Movie').exec((err, genre) => {
+      Genre.findOne({Name: movie.Genre.Name})
+      .populate('Genre').exec((err, genre) => {
         Object.keys(movie.Genre).forEach(function(key){
+          // console.log(movie.Genre[key])
+          // console.log(genre[key])
+          if(movie.Genre[key] != genre.Name){
+            console.log("🍅")
+            // console.log(movie.Genre.Description)
+            movie.Genre.Description = genre[key][0]
+          }
+        })
+      })
+      Director.findOne({Name: movie.Director.Name})
+      .populate('Director').exec((err, director) => {
+        Object.keys(movie.Director).forEach(function(key){
           //movie.Genre[key]
           //genre[key]
-          if(movie.Genre[key] != genre.Name){
+          // console.log('this is the director' + director)
+          if(movie.Director[key] != director.Name){
             console.log("👏 ")
-            movie.Genre[key] = genre[key]
+            movie.Director[key] = director[key]
           }
         })
         res.json(movie)
-    })
+      })
   })
   .catch((error)=>{
     console.log(error)
@@ -67,7 +80,7 @@ app.get('/genres', (req, res)=>{
 })
 
 //GET A LIST OF MOVIES BY GENRE
-app.get('/genre/:genre', (req, res)=>{
+app.get('/genres/:genre', (req, res)=>{
   Movies.find({"Genre.Name": req.params.genre})
     .then((movies)=>{
       res.json(movies)
@@ -83,22 +96,38 @@ app.get('/directors', (req, res)=>{
 })
 
 app.get('/directors/:name', (req, res)=>{
-  Director.find({"Name": req.params.name}).then(director=>res.json(director))
-})
+  // Director.find({"Name": req.params.name}).then(director=>res.json(director))  
+  Director.findOne({Name: req.params.name})
+  .then((director)=>{
+      // console.log(director.Name)
+      Movies.find({"Director.Name": director.Name})
+      .populate('Director').exec((err, movie) => {
+        Object.keys(movie).forEach(function(key){
+          //movie.Genre[key]
+          //genre[key]
+          // if a movie that was directed by the searched director
+          if(key){
+            // console.log(movie[0].Director.Name[0])
+            // console.log(director.Name)
+            if(director.Name == movie[0].Director.Name[0]){
+              console.log("👏 ")
+              director.Bio = movie.Director
+            } 
+          }
+      })
+      // COMBINE THE TWO OBJECTS
+      let target = Object.assign({}, director._doc, movie)
+      res.json(target)
+    })
+    
+    
+  })
+  .catch((error)=>{
+    console.log(error)
+    res.status(500).send('Error: ' + error)
+  })
 
-// app.get('/directors/:name', (req, res)=>{
-  
-//   //TODO remove Movies and use Director.
-//   Movies.find({"Director.Name": req.params.name})
-//     .then((director)=>{
-      
-//       //TODO response will be different
-//       res.json(director[0].Director)
-//     })
-//     .catch((err)=>{
-//       res.status(500).send('Error: ' + err)
-//     })
-// })
+})
 
 app.post('/movies', (req, res)=>{
   console.log(req.body)
