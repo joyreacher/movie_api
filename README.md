@@ -19,50 +19,50 @@ Simple API that returns information about movies using Express.
 #### Get movie
 
 ```http
-  GET /moves/:movieid
+  GET /moves/:title
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `movieid`      | `number` | Id corresponding to a movie resource  |
+| `title`      | `string` | Corresponding title to a movie resource  |
 
-#### Get All directors
+#### Get A director
 
 ```http
-  GET /directors
+  GET /directors/:name
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `none`      | `NA` | Return all directors |
+| `name`      | `string` | Return a director resource by name |
 
 
-#### Post favorite movie
+#### Add a favorite movie to a user
 
 ```http
-  POST /users/:id/movies
+  POST /users/mymovies/add
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `:id`      | `number` | Post a new movie resource |
+| `none`      | `NA` | Body transfers Username and Title values |
 
 
 #### Remove a movie resource
 
 ```http
-  DELETE /movies/:movieid
+  DELETE /users/mymovies/delete
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `:moviid`      | `number` | Remove a movie resource using its corresponding resource ID |
+| `none`      | `NA` | Body transfers Username and Title values |
 
 
 #### Get genre details
 
 ```http
-  GET /movies/genre/:genre
+  GET /genre/:genre
 ```
 
 | Parameter | Type     | Description                       |
