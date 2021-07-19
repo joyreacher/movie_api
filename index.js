@@ -265,7 +265,7 @@ app.post('/users/mymovies/add', (req, res) => {
             if (user[0].favorite_movies !== undefined) {
               // IF THE FAVORITE MOVIES ARRAY EXISTS BUT HAS NO VALUES
               // ADD THE MOVIE
-              if (user[0].favorite_movies === '') {
+              if (user[0].favorite_movies == '') {
                 console.log('favorite_movies is EMPTY')
                 Users.findOneAndUpdate(
                   { username: req.body.Username },
@@ -283,7 +283,7 @@ app.post('/users/mymovies/add', (req, res) => {
               } else {
                 console.log('favorite_movies is NOT EMPTY')
                 user[0].favorite_movies.forEach((title) => {
-                  if (title.Title === req.body.Title) {
+                  if (title.Title == req.body.Title) {
                     console.log('There is a match in the Database. Dont add movie.')
                     res.status(400).send(req.body.Title + ' is already saved to your favorites')
                   }
