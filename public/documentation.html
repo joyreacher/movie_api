@@ -8,7 +8,7 @@
   <title>Document</title>
 </head>
 <body>
-  <section class="mt-5">
+  <section class="mt-5 p-5">
     <h1>Movie API</h1>
     <div class="table-responsive">
       <table class="table table-striped">
@@ -23,50 +23,45 @@
         </thead>
         <tbody>
           <!-- return all content and user information -->
-          <tr>
+          <!-- <tr>
             <td>Returns all content and user data.</td>
-            <td>/</td>
+            <td><code>/</code></td>
             <td>GET</td>
             <td>NA</td>
-            <td>JSON object containing data about a film's director(s)<samp><code>    {users:{}, content:{}}</code></samp>
+            <td>JSON object containing data about a film's director(s)<samp><code>[{"Director": Object, "Actors": Array, "Title": String}]</code></samp>
             </td>
-          </tr>
+          </tr> -->
           <!-- return all users -->
-          <tr>
+          <!-- <tr>
             <td>Returns the myinfo array of objects.</td>
             <td>/users</td>
             <td>GET</td>
             <td>NA</td>
             <td>JSON object containing data about a film's director(s)<samp><code>    {users:{ { myinfo:[] } }}</code></samp>
             </td>
-          </tr>
+          </tr> -->
           <!-- return all content -->
-          <tr>
+          <!-- <tr>
             <td>Returns the content object.</td>
             <td>/content</td>
             <td>GET</td>
             <td>NA</td>
             <td>JSON object containing data about a film's director(s)<samp><code>    {content:{ movies:[], genre:[], filmography:[], movie:[] }}</code></samp>
             </td>
-          </tr>
+          </tr> -->
           <!-- get all movies -->
           <tr>
             <td>Gets all movies</td>
-            <td>/content/movies</td>
+            <td>/movies</td>
             <td>GET</td>
             <td>
               NA
             </td>
             <td>
-              <p>An array of objects, each containing <code>title, description, genre, rating, filmography</code></p>
+              <p>An array of objects, each containing <strong>Title, Director, Actors, Genre  </strong></p>
               <samp>
                 <code>
-                  {"movies":{
-                    [{
-                      "title":"Gremlins",
-                      "url": "/content/movie/gremlins"
-                    }]
-                  }}
+                  [{"Director": Object, "Actors": Array, "Title": String}]
                 </code>
             </samp>
             </td>
@@ -74,171 +69,163 @@
           <!-- return details about a specific movie -->
           <tr>
             <td>Returns details about a specific movie</td>
-            <td>/content/movie/details/[<span class="text-danger">title</span>]</td>
+            <td>/movies/[<span class="text-danger">title</span>]</td>
             <td>GET</td>
             <td>NA</td>
             <td>JSON object containing data about a single move based on the title query parameter.<samp><code>"movie":[
-              { 
-                "title":"Godzilla",
-                "description":"This is the description for godzilla",
-                "filmography":
-                  {
-                    "cast":{
-                      "name":"Jim Carry",
-                      "screenname":"Godzilla"
-                    },
-                    "crew":{
-                      "name":"Stephen Speilberg",
-                      "films": ""
-                    }
-                  }
+              {
+                "Director": {
+                  "Name": "Brian",
+                  "Bio": "This is the directors bio",
+                  "Birth": "Date",
+                  "Death": "Date"
+                },
+                "Actors": [],
+                "Title": "Godzilla",
+                "Description": "This is the description",
+                "Featured": false,
               }</code></samp>
             </td>
           </tr>
           <!-- return a specific genre -->
           <tr>
             <td>Returns details about a specific genre</td>
-            <td>/content/movies?[<span class="text-danger">genre</span>]</td>
+            <td>/genre/[<span class="text-danger">genre</span>]</td>
             <td>GET</td>
             <td>NA</td>
-            <td>JSON object containing data about a single move based on the title query parameter.<samp><code>"genre":{
-              "adventure":[
-                {
-                  "title":"Godzilla",
-                  "url":"",
+            <td>JSON object containing data about a single move based on the title query parameter.<samp><code>[
+              {
+                "Actors": [],
+                "_id": "60f5ade1713282b91eac34d0",
+                "Title": "Keanu",
+                "Description": "Describe Keanu",
+                "Genre": {
+                  "_id": "60f5ade1713282b91eac34d1",
+                  "Name": "Comedy"
                 },
-                {
-                  "title":"King Kong",
-                  "url":"",
-                }
-                
-              ],</code></samp>
+                "Featured": false,
+                "__v": 0
+              }
+            ]</code></samp>
             </td>
           </tr>
           <!-- return director -->
           <tr>
-            <td>Returns details the director of a film.</td>
-            <td>/content/movies/filmography/[<span class="text-danger">title</span>]/[<span class="text-danger">name</span>]</td>
+            <td>Returns details of a director.</td>
+            <td>/directors/[<span class="text-danger">name</span>]</td>
             <td>GET</td>
             <td>NA</td>
-            <td>JSON object containing data about a film's director(s)<samp><code>    "filmography":{
-              "actor":[
-                {
-                  "id":0,
-                  "name":"Brad Pitt",
-                  "flims": [
-                    {
-                      "title":"Fight Club",
-                      "url":"/content/movie/fight+club"
-                    }
-                  ]
-                },
-                {
-                  "id":1,
-                  "name":"Scarlett Johansson",
-                  "flims": [
-                    {
-                      "title":"Avengers",
-                      "url":"/content/movie/avengers"
-                    }
-                  ]
-                  
-                }
-              ]</code></samp>
+            <td>JSON object containing data about a film's director(s)<samp><code>{
+              "Name": "Brian",
+              "Bio": "This is the bio",
+              "Birth": "2009-12-12T07:00:00.000Z",
+              "Death": "2019-12-12T07:00:00.000Z"
+            }</code></samp>
             </td>
           </tr>
           
           <!-- update a favorite movie list -->
           <tr>
             <td>Update a favorite movie list.</td>
-            <td>/content/movies/mymovies</td>
+            <td>/users/mymovies/add</td>
             <td>POST</td>
-            <td>Send data to the mymovies array<samp><code>{id:'', title:''}</code></samp>
+            <td>
+              Send data to the <code>favorite_movies</code> array
+              using <code>Username, Title</code> input names.
             </td>
-            <td>Send data to the mymovies array<samp><code>{id:'', title:'' ..., mymovies:[
-              {
-                title:'The Fast and the Furious',
-                url:'url to the movie'
-              }
-            ]}</code></samp>
+            <td>Returned json object from the mymovies array<samp><code>{
+              "username": "Brian",
+              "password": "password",
+              "email": "email",
+              "birthday": "date",
+              "favorite_movies": [
+                {
+                  "_id": "60f250cc3863274e6ec9ab84",
+                  "Title": "Godzilla"
+                },
+                {
+                  "_id": "60f5ade1713282b91eac34d0",
+                  "Title": "Keanu"
+                }
+              ],
+              "__v": 3
+            }</code></samp>
             </td>
           </tr>
           
           <!-- add a user -->
           <tr>
             <td>Register a new user.</td>
-            <td>/content/account/register</td>
+            <td>/users</td>
             <td>POST</td>
-            <td>Send data to the mymovies array<samp><code>{name:'', email:'', password}</code></samp>
+            <td>Send data to <strong>users</strong> collection <samp><code>{username:String, email:String, password: String, birthday: Date}</code></samp>
             </td>
-            <td>Expected response<samp><code>{ myinfo: [
-              {
-                id:number,
-                name:string,
-                email:string,
-                password:string,
-                joined: new Date()
-              }]}</code></samp>
+            <td>Expected response<samp><code>{
+              "username": "Takka",
+              "password": "password",
+              "email": "email",
+              "birthday": "Date",
+              "favorite_movies": [],
+              "__v": 0
+            }</code></samp>
             </td>
           </tr>
           
           <!-- update a users info -->
           <tr>
             <td>Update user information.</td>
-            <td>/content/account/myinfo?<code>[name]</code></td>
+            <td>/user/[<code>username</code>]</td>
             <td>PUT</td>
             <td>Send query parameter to<samp><code>{myinfo:[
               {
-                id:'',
-                name::name, 
-                username:'',
-                email:'',
-                password:'', 
+                username:String,
+                email:String,
+                password:String, 
+                birthday: Date,
                 mymovies:[]
               }
             ]}</code></samp>
             </td>
-            <td>Expected response<samp><code>{ myinfo: [
-              {
-                id:number,
-                name:string,
-                username:string,
-                email:string,
-                password:string,
-                joined: new Date()
-              }]}</code></samp>
+            <td>Expected response<samp><code>{
+              "username": "Takka411",
+              "password": "password",
+              "email": "email",
+              "birthday": "date",
+              "favorite_movies": [],
+              "__v": 0
+            }</code></samp>
             </td>
           </tr>
           
           <!-- remove a movie from users favorite movies -->
           <tr>
             <td>Remove user's favorite movies.</td>
-            <td>/content/movies/mymovies</td>
-            <td>DELETE</td>
-            <td>Send query parameter to<samp><code>{myinfo:[
-              {
-                title:string
-              }
-            ]}</code></samp>
+            <td>/movies/mymovies/delete</td>
+            <td>POST</td>
+            <td>Send query parameter to<samp><code>{
+              username: String
+              title: String
+            }</code></samp>
             </td>
             <td>
-              deleted movie object from the mymovies array.
+              Response: [<code>movie title</code>] was deleted
             </td>
           </tr>
           
           <!-- remove a user -->
           <tr>
             <td>Remove a user.</td>
-            <td>/content/account/unregister/<code>[email]</code></td>
-            <td>DELETE</td>
-            <td>Send query parameter to<samp><code>{myinfo:[
-              {
-                email:string
-              }
-            ]}</code></samp>
+            <td>/users/unregister</td>
+            <td>POST</td>
+            <td>Send query parameter to<samp><code>
+            {
+              Username: String,
+              Email: String
+            }
+            </code></samp>
             </td>
             <td>
-              deleted users object from the myinfo array.
+              Response: [<code>username</code>] successfully deleted ✅ 
             </td>
           </tr>
 
