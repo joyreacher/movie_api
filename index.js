@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+require('dotenv').config()
 const mongoose = require('mongoose')
 const Models = require('./models.js')
 const Movies = Models.Movie
 const Users = Models.User
-mongoose.connect('mongodb+srv://Brian:f3BSmcysHODcLlnA@cluster0.ganu8.mongodb.net/myFlix-V1?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.BACKENDKEY, { useNewUrlParser: true, useUnifiedTopology: true })
 const express = require('express'); const morgan = require('morgan')
 const app = express()
 const options = {
