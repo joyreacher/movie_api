@@ -25,6 +25,10 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
+// app ensures that Express is available in your "auth.js" file as well
+let auth = require('./auth')(app)
+const passport = require('passport');
+require('./passport');
 
 //*********************HELPERS - routes made to input data -- not part of task
 /*
