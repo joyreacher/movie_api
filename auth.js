@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken'),
 // Your local passport file
 require('./passport');
 
-let genreateJwTToken = (user) =>{
+let generateJWTToken = (user) =>{
   return jwt.sign(user, jwtSecret, {
     // This is the username your encoding in the JWT
-    subject: user.Username,
+    subject: toString(user.Username),
     // This specifies that the token will expire in 7 days
     expiresIn: '7d',
     // This is the algorithm used to "sign" or encode the values of the JWT
