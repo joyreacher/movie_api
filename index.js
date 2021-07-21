@@ -194,6 +194,23 @@ app.get('/directors/:name', (req, res) => {
       }
     })
 })
+/*
+  Get all users
+*/
+app.get('/users', (req, res) => {
+  Users.find()
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send('Something went wrong')
+      } else {
+        res.json(user)
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).send('Error: ' + error)
+    })
+})
 
 /*
   Allow new users to register
