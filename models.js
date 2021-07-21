@@ -12,7 +12,7 @@ const movieSchema = mongoose.Schema({
   Director: { Name: String, Bio: String, Birth: Date, Death: Date },
   ImagePath: String,
   Featured: Boolean
-}, {versionKey: false})
+}, { versionKey: false })
 
 const userSchema = mongoose.Schema({
   username: { type: String, required: true },
