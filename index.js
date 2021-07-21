@@ -32,6 +32,39 @@ const e = require('express')
 require('./passport.js');
 
 
+
+
+
+
+/**
+  Return a list of ALL movies to the user
+ */
+app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.find()
+    .then(movie => {
+      res.json(movie)
+    })
+    .catch((error)=>{
+      console.log(error)
+      res.status(500).send("Error: " + error)
+    })
+})
+/*
+  Return data ( description, genre, director, image URL, whether is's feature or not (bool))about a single movie by the title to the user
+  POSTMAN PARAMS:
+  Title - title of a movie
+*/
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ Title: req.params.title })
+    .then((movie) => {
+      res.json(movie)
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).send('Error: ' + error)
+    })
+})
+
 /*
   Add a new movie
   POSTMAN PARAMS:
@@ -110,6 +143,32 @@ app.put('/movie/:title', passport.authenticate('jwt', { session: false }), (req,
 })
 
 /*
+  Return data about a genre (description) by name/title
+*/
+app.get('/genre/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.params.genre)
+  Movies.find({"Genre.Name": req.params.genre})
+    .then(movie => {
+      res.json(movie)
+    })
+})
+  
+  
+/*
+  Return data about a director(bio, birth year, death year)by Name
+*/
+app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
+Movies.find({ 'Director.Name': req.params.name })
+  .then((director, err) => {
+    if (director[0] === undefined) {
+      res.status(500).send(`This director (${req.params.name}) does not exist in this database. The value returned is: ` + err)
+    } else {
+      res.json(director[0].Director)
+    }
+  })
+})
+  
+/*
   Add a director based on movie title
   POSTMAN PARAMS:
   Name - Set the name of the director
@@ -133,60 +192,6 @@ app.post('/directors?:title', passport.authenticate('jwt', { session: false }), 
       }
     }
   )
-})
-
-/**
-  Return a list of ALL movies to the user
- */
-app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find()
-    .then(movie => {
-      res.json(movie)
-    })
-    .catch((error)=>{
-      console.log(error)
-      res.status(500).send("Error: " + error)
-    })
-})
-/*
-  Return data ( description, genre, director, image URL, whether is's feature or not (bool))about a single movie by the title to the user
-  POSTMAN PARAMS:
-  Title - title of a movie
-*/
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ Title: req.params.title })
-    .then((movie) => {
-      res.json(movie)
-    })
-    .catch((error) => {
-      console.log(error)
-      res.status(500).send('Error: ' + error)
-    })
-})
-
-/*
-  Return data about a genre (description) by name/title
- */
-  app.get('/genre/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req.params.genre)
-    Movies.find({"Genre.Name": req.params.genre})
-      .then(movie => {
-        res.json(movie)
-      })
-  })
-
-/*
-  Return data about a director(bio, birth year, death year)by Name
-*/
-app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find({ 'Director.Name': req.params.name })
-    .then((director, err) => {
-      if (director[0] === undefined) {
-        res.status(500).send(`This director (${req.params.name}) does not exist in this database. The value returned is: ` + err)
-      } else {
-        res.json(director[0].Director)
-      }
-    })
 })
 
 /*
@@ -229,6 +234,37 @@ app.get('/user/:username', passport.authenticate('jwt', { session: false }), (re
 })
 
 /*
+  Allow users to update their user info (username, password, email, date of birth)
+  POSTMAN PARAMS:
+  Username
+  Password
+  Email
+  Birthday
+*/
+app.put('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body)
+  Users.findOneAndUpdate({ username: req.params.username }, {
+    $set:
+      {
+        username: req.body.Username,
+        password: req.body.Password,
+        email: req.body.Email,
+        birth_date: req.body.Birthday
+      }
+  },
+  { new: true },
+  (err, updatedUser) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send('Error:' + err)
+    } else {
+      res.json(updatedUser)
+    }
+  }
+  )
+})
+
+/*
   Allow new users to register
   POSTMAN PARAMS:
   Username
@@ -262,37 +298,7 @@ app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) 
     })
 })
 
-/*
-  Allow users to update their user info (username, password, email, date of birth)
-  POSTMAN PARAMS:
-  Username
-  Password
-  Email
-  Birthday
-*/
 
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body)
-  Users.findOneAndUpdate({ username: req.params.username }, {
-    $set:
-      {
-        username: req.body.Username,
-        password: req.body.Password,
-        email: req.body.Email,
-        birth_date: req.body.Birthday
-      }
-  },
-  { new: true },
-  (err, updatedUser) => {
-    if (err) {
-      console.log(err)
-      res.status(500).send('Error:' + err)
-    } else {
-      res.json(updatedUser)
-    }
-  }
-  )
-})
 /*
   Allow users to add a movie to ther list of favorites
   POSTMAN:
