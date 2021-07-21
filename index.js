@@ -28,6 +28,7 @@ app.use(express.json())
 // app ensures that Express is available in your "auth.js" file as well
 let auth = require('./auth')(app)
 const passport = require('passport');
+const e = require('express')
 require('./passport.js');
 
 //*********************HELPERS - routes made to input data -- not part of task
@@ -194,11 +195,33 @@ app.get('/directors/:name', (req, res) => {
       }
     })
 })
+
 /*
   Get all users
 */
 app.get('/users', (req, res) => {
   Users.find()
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send('Something went wrong')
+      } else {
+        res.json(user)
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).send('Error: ' + error)
+    })
+})
+
+/*
+  Get user by name
+  POSTMAN PARAMS: 
+  Username - username is case sensitive
+*/
+app.get('/user/:username', (req, res) => {
+  console.log(req.params.username)
+  Users.findOne({"username": req.params.username})
     .then((user) => {
       if (!user) {
         return res.status(400).send('Something went wrong')
