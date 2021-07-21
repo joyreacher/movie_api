@@ -25,8 +25,46 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
+// app ensures that Express is available in your "auth.js" file as well
+let auth = require('./auth')(app)
+const passport = require('passport');
+const e = require('express')
+require('./passport.js');
 
-//*********************HELPERS - routes made to input data -- not part of task
+
+
+
+
+
+/**
+  Return a list of ALL movies to the user
+ */
+app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.find()
+    .then(movie => {
+      res.json(movie)
+    })
+    .catch((error)=>{
+      console.log(error)
+      res.status(500).send("Error: " + error)
+    })
+})
+/*
+  Return data ( description, genre, director, image URL, whether is's feature or not (bool))about a single movie by the title to the user
+  POSTMAN PARAMS:
+  Title - title of a movie
+*/
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ Title: req.params.title })
+    .then((movie) => {
+      res.json(movie)
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).send('Error: ' + error)
+    })
+})
+
 /*
   Add a new movie
   POSTMAN PARAMS:
@@ -35,7 +73,7 @@ app.use(express.json())
   Genre - Set the genre's Name value
   Featured - Bool
 */
-app.post('/movie', (req, res) => {
+app.post('/movie', passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log(req.body)
   // const movie = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
   // const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
@@ -79,7 +117,7 @@ app.post('/movie', (req, res) => {
   ImagePath     - Used to set the image cover,
   Featured      - Bool
 */
-app.put('/movie/:title', (req, res) => {
+app.put('/movie/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log(req.body)
   Movies.findOneAndUpdate({ Title: req.params.title }, {
     $set:
@@ -105,6 +143,32 @@ app.put('/movie/:title', (req, res) => {
 })
 
 /*
+  Return data about a genre (description) by name/title
+*/
+app.get('/genre/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.params.genre)
+  Movies.find({"Genre.Name": req.params.genre})
+    .then(movie => {
+      res.json(movie)
+    })
+})
+  
+  
+/*
+  Return data about a director(bio, birth year, death year)by Name
+*/
+app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
+Movies.find({ 'Director.Name': req.params.name })
+  .then((director, err) => {
+    if (director[0] === undefined) {
+      res.status(500).send(`This director (${req.params.name}) does not exist in this database. The value returned is: ` + err)
+    } else {
+      res.json(director[0].Director)
+    }
+  })
+})
+  
+/*
   Add a director based on movie title
   POSTMAN PARAMS:
   Name - Set the name of the director
@@ -112,7 +176,7 @@ app.put('/movie/:title', (req, res) => {
   DOB (BIRTH) - Birth year of the director
   YOD (DEATH) - Death year of the director
 */
-app.post('/directors?:title', (req, res) => {
+app.post('/directors?:title', passport.authenticate('jwt', { session: false }),  (req, res) => {
   console.log(req.query.title)
   const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
   Movies.findOneAndUpdate(
@@ -130,61 +194,74 @@ app.post('/directors?:title', (req, res) => {
   )
 })
 
-//*********************end HELPERS
-
-
-
-
-//*********************TASK
-//*********************START 
-/**
-  Return a list of ALL movies to the user
- */
-app.get('/movies', (req, res) => {
-  Movies.find()
-    .then(movie => {
-      res.json(movie)
-    })
-})
 /*
-  Return data ( description, genre, director, image URL, whether is's feature or not (bool))about a single movie by the title to the user
-  POSTMAN PARAMS:
-  Title - title of a movie
+  Get all users
 */
-app.get('/movies/:title', (req, res) => {
-  Movies.findOne({ Title: req.params.title })
-    .then((movie) => {
-      res.json(movie)
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Users.find()
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send('Something went wrong')
+      } else {
+        res.json(user)
+      }
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
       res.status(500).send('Error: ' + error)
     })
 })
 
 /*
-  Return data about a genre (description) by name/title
- */
-  app.get('/genre/:genre', (req, res) => {
-    console.log(req.params.genre)
-    Movies.find({"Genre.Name": req.params.genre})
-      .then(movie => {
-        res.json(movie)
-      })
-  })
-
-/*
-  Return data about a director(bio, birth year, death year)by Name
+  Get user by name
+  POSTMAN PARAMS: 
+  Username - username is case sensitive
 */
-app.get('/directors/:name', (req, res) => {
-  Movies.find({ 'Director.Name': req.params.name })
-    .then((director, err) => {
-      if (director[0] === undefined) {
-        res.status(500).send(`This director (${req.params.name}) does not exist in this database. The value returned is: ` + err)
+app.get('/user/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.params.username)
+  Users.findOne({"username": req.params.username})
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send('Something went wrong')
       } else {
-        res.json(director[0].Director)
+        res.json(user)
       }
     })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).send('Error: ' + error)
+    })
+})
+
+/*
+  Allow users to update their user info (username, password, email, date of birth)
+  POSTMAN PARAMS:
+  Username
+  Password
+  Email
+  Birthday
+*/
+app.put('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body)
+  Users.findOneAndUpdate({ username: req.params.username }, {
+    $set:
+      {
+        username: req.body.Username,
+        password: req.body.Password,
+        email: req.body.Email,
+        birth_date: req.body.Birthday
+      }
+  },
+  { new: true },
+  (err, updatedUser) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send('Error:' + err)
+    } else {
+      res.json(updatedUser)
+    }
+  }
+  )
 })
 
 /*
@@ -195,7 +272,7 @@ app.get('/directors/:name', (req, res) => {
   Email
   Birthday
 */
-app.post('/users', (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -220,43 +297,15 @@ app.post('/users', (req, res) => {
       res.status(500).send('Error: ' + error)
     })
 })
-/*
-  Allow users to update their user info (username, password, email, date of birth)
-  POSTMAN PARAMS:
-  Username
-  Password
-  Email
-  Birthday
-*/
-app.put('/users/:username', (req, res) => {
-  console.log(req.body)
-  Users.findOneAndUpdate({ username: req.params.username }, {
-    $set:
-      {
-        username: req.body.Username,
-        password: req.body.Password,
-        email: req.body.Email,
-        birth_date: req.body.Birthday
-      }
-  },
-  { new: true },
-  (err, updatedUser) => {
-    if (err) {
-      console.log(err)
-      res.status(500).send('Error:' + err)
-    } else {
-      res.json(updatedUser)
-    }
-  }
-  )
-})
+
+
 /*
   Allow users to add a movie to ther list of favorites
   POSTMAN:
   USERNAME = username of the user,
   TITLE = title of the movie the user wants to add to favorites
 */
-app.post('/users/mymovies/add', (req, res) => {
+app.post('/users/mymovies/add', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.body.Title })
     .then((movie) => {
       if (movie) {
@@ -317,7 +366,8 @@ app.post('/users/mymovies/add', (req, res) => {
   USERNAME = username of the user,
   TITLE = title of the movie the user wants to add to favorites
 */
-app.post('/users/mymovies/delete', (req, res) => {
+
+app.post('/users/mymovies/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find({ username: req.body.Username })
     .then((favorite) => {
       // console.log(favorite)
@@ -354,7 +404,7 @@ app.post('/users/mymovies/delete', (req, res) => {
   Username
   Email
 */
-app.post('/users/unregister', (req, res) => {
+app.post('/users/unregister', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndDelete({ username: req.body.Username, email: req.body.Email })
     .then((user) => {
       if (!user.username) {
