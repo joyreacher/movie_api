@@ -28,7 +28,7 @@ app.use(express.json())
 // app ensures that Express is available in your "auth.js" file as well
 let auth = require('./auth')(app)
 const passport = require('passport');
-require('./passport');
+require('./passport.js');
 
 //*********************HELPERS - routes made to input data -- not part of task
 /*
@@ -144,7 +144,7 @@ app.post('/directors?:title', (req, res) => {
 /**
   Return a list of ALL movies to the user
  */
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then(movie => {
       res.json(movie)
