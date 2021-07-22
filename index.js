@@ -24,7 +24,22 @@ const options = {
 app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-
+const cors = require('cors')
+// app.use(cors())
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com']
+// ? TO ALLOW API CALLS FROM SPECIFIC ORIGINS
+app.use(cors({
+  origin: (origin, callback) =>{
+    if(!origin) return callback(null, true);
+    
+    // error check if a speicific origin is not found
+    if(allowedOrigins.indexOf(origin) === -1){
+      let message = 'The CORS policy for this application doesnt allow access from origin ' + origin;
+      return callback(new Error(message), false)
+    }
+    return callback(null, true)
+  }
+}))
 // app ensures that Express is available in your "auth.js" file as well
 const auth = require('./auth')(app)
 const passport = require('passport')
