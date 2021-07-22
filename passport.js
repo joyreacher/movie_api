@@ -1,11 +1,11 @@
-const passport = require('passport')
-LocalStrategy = require('passport-local').Strategy
-Models = require('./models.js')
-passportJWT = require('passport-jwt')
+const passport = require('passport'),
+LocalStrategy = require('passport-local').Strategy,
+Models = require('./models.js'),
+passportJWT = require('passport-jwt');
 
-const Users = Models.User
-JWTStrategy = passportJWT.Strategy
-ExtractJWT = passportJWT.ExtractJwt
+const Users = Models.User,
+JWTStrategy = passportJWT.Strategy,
+ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(new LocalStrategy({
   usernameField: 'Username',
@@ -20,6 +20,10 @@ passport.use(new LocalStrategy({
     if (!user) {
       console.log('incorrect username')
       return callback(null, false, { message: 'Incorrect username or password.' })
+    }
+    if(!user.validatePassword(password)){
+      console.log('Incorrect password')
+      return callback(null, false, {message: 'Incorrect Password.'})
     }
     console.log('finished')
     return callback(null, user)
