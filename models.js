@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
 })
 
 userSchema.statics.hashPassword = (password) => {
-  return bcrypt.hashSync(password, 10])
+  return bcrypt.hashSync(password, 10)
 }
 
 //instance method -- dont use arrow functions
