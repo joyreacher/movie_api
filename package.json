@@ -6,6 +6,7 @@
   "scripts": {
     "test": "standard && node index.js",
     "start": "nodemon server.js",
+    "dev": "node index.js",
     "deploy": "gh-pages -d",
     "doc": "jsdoc -c jsdoc.json"
   },
