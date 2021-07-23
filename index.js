@@ -26,7 +26,6 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 const cors = require('cors')
-// app.use(cors())
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com']
 // ? TO ALLOW API CALLS FROM SPECIFIC ORIGINS
 app.use(cors({
@@ -44,8 +43,9 @@ app.use(cors({
 // app ensures that Express is available in your "auth.js" file as well
 const auth = require('./auth')(app)
 const passport = require('passport')
-// const e = require('express')
 require('./passport')
+
+
 /**
   Home screen
  */
@@ -87,12 +87,24 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req
   Title - Set the name of the director
   Description - Description of the movie
   Genre - Set the genre's Name value
+  Director
+  Bio
+  DOB
+  YOD
   Featured - Bool
 */
-app.post('/movie', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body)
-  // const movie = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
-  // const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
+app.post('/movie',
+  [
+    check('Title', 'The movie title is required').isLength({min:1}),
+    check('Description', 'Please provide more description').isLength({min: 5}),
+    check('Genre', 'A movie genre is required').not().isEmpty(),
+  ],
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() })
+  }
   Movies.findOne({ Title: req.query.title })
     .then((movieItem) => {
       if (movieItem) {
@@ -121,26 +133,36 @@ app.post('/movie', passport.authenticate('jwt', { session: false }), (req, res) 
   Title         - Set the name of the director
   Description   - Description of the movie
   Genre         - {
-                Name: Set the genre's Name value,
+                GenreName: Set the genre's Name value,
                 GenreDescription: Set the genre's Description
                 }
   Director      - {
-                Name: Set the director's Name value,
+                Director: Set the director's Name value,
                 Bio: Set the director's Bio,
-                Birth: Set the director's DOB,
-                Death: Set the director's YOD
+                DOB: Set the director's DOB,
+                YOD: Set the director's YOD
                 }
   ImagePath     - Used to set the image cover,
   Featured      - Bool
 */
-app.put('/movie/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body)
+app.put('/movie/:title',
+  [
+    check('Title', 'The movie title is required').isLength({min:1}),
+    check('Description', 'Please provide more description').isLength({min: 5}),
+    check('GenreName', 'A movie genre is required').not().isEmpty(),
+    check('ImagePath', 'A link to an image is required').isURL()
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    res.status(422).json({errors: errors.array()})
+  }
   Movies.findOneAndUpdate({ Title: req.params.title }, {
     $set:
       {
         Title: req.body.Title,
         Description: req.body.Description,
-        Genre: { Name: req.body.Genre, Description: req.body.GenreDescription },
+        Genre: { Name: req.body.GenreName, Description: req.body.GenreDescription },
         Director: { Name: req.body.Director, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD },
         ImagePath: req.body.ImagePath,
         Featured: false
@@ -191,16 +213,35 @@ app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (r
   DOB (BIRTH) - Birth year of the director
   YOD (DEATH) - Death year of the director
 */
-app.post('/directors?:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.query.title)
-  const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
+app.post('/directors?:title',
+  [
+    // check('Title', 'A movie title is required to assign a director to.' ).not().isEmpty(),
+    check('Name', 'A directors name is required.').not().isEmpty(),
+    check('Bio', 'Please provide information about the director.').not().isEmpty(),
+    check('DOB', 'Please provide the year the director was born.').not().isEmpty(),
+  ],
+  passport.authenticate('jwt',{ session: false }),
+  (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() })
+    }
+  const director = {
+    Director: 
+    { 
+      Name: req.body.Name, 
+      Bio: req.body.Bio, 
+      Birth: req.body.DOB, 
+      Death: req.body.YOD
+    } 
+  }
   Movies.findOneAndUpdate(
     { Title: req.query.title },
     { $set: director },
     { upsert: true },
     (err, updatedMovie) => {
       if (err) {
-        console.log(err)
+        // console.log(err)
         res.status(500).send('Error:' + err)
       } else {
         res.json(updatedMovie)
@@ -256,15 +297,27 @@ app.get('/user/:username', passport.authenticate('jwt', { session: false }), (re
   Email
   Birthday
 */
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:username',
+  [
+    check('Username', 'Username is required').isLength({min:5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required and needs to be at least 6 charactors ').not().isEmpty().isLength({min:6}),
+    check('Email', 'Email does not appear to be vaild.').isEmail(),
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log(req.body)
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    res.status(400).json({errors: errors.array()})
+  }
+  let hashedPassword = Users.hashPassword(req.body.Password)
   Users.findOneAndUpdate({ username: req.params.username }, {
     $set:
       {
         username: req.body.Username,
-        password: req.body.Password,
+        password: hashedPassword,
         email: req.body.Email,
-        birth_date: req.body.Birthday
+        birthday: req.body.Birthday
       }
   },
   { new: true },
@@ -335,7 +388,16 @@ app.post('/users',
   USERNAME = username of the user,
   TITLE = title of the movie the user wants to add to favorites
 */
-app.post('/users/mymovies/add', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users/mymovies/add',
+  [
+    check('Username', 'A user is required to assign a favorite movie.').notEmpty(),
+    check('Title', 'Title of a movie is required').isLength({min:1})
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({errors: errors.array()})
+    }
   Movies.findOne({ Title: req.body.Title })
     .then((movie) => {
       if (movie) {
@@ -397,7 +459,16 @@ app.post('/users/mymovies/add', passport.authenticate('jwt', { session: false })
   TITLE = title of the movie the user wants to add to favorites
 */
 
-app.post('/users/mymovies/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users/mymovies/delete',
+  [
+    check('Username', 'A user is required to assign a favorite movie.').notEmpty(),
+    check('Title', 'Title of a movie is required').isLength({min:1})
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({errors: errors.array()})
+    }
   Users.find({ username: req.body.Username })
     .then((favorite) => {
       // console.log(favorite)
@@ -434,15 +505,22 @@ app.post('/users/mymovies/delete', passport.authenticate('jwt', { session: false
   Username
   Email
 */
-app.post('/users/unregister', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users/unregister',
+  [
+    check('Username', 'Username is required').isLength({min:5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Email', 'This email does not exist').normalizeEmail().isEmail()
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({errors: errors.array()})
+    }
   Users.findOneAndDelete({ username: req.body.Username, email: req.body.Email })
     .then((user) => {
-      if (!user.username) {
-        res.status(400).send(user.username + ' does not exist.')
-      } else if (!user.email) {
-        res.status(400).send(user.email + ' does not exist.')
+      if(!user){
+        res.status(400).send('Could not find Username and Email combination. 💆 ')
       }
-      console.log(user)
       res.json(user.username + ' successfully delted. ✅ ')
     })
 })
