@@ -483,15 +483,22 @@ app.post('/users/mymovies/delete',
   Username
   Email
 */
-app.post('/users/unregister', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users/unregister',
+  [
+    check('Username', 'Username is required').isLength({min:5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Email', 'This email does not exist').normalizeEmail().isEmail()
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({errors: errors.array()})
+    }
   Users.findOneAndDelete({ username: req.body.Username, email: req.body.Email })
     .then((user) => {
-      if (!user.username) {
-        res.status(400).send(user.username + ' does not exist.')
-      } else if (!user.email) {
-        res.status(400).send(user.email + ' does not exist.')
+      if(!user){
+        res.status(400).send('Could not find Username and Email combination. 💆 ')
       }
-      console.log(user)
       res.json(user.username + ' successfully delted. ✅ ')
     })
 })
