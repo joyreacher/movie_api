@@ -99,10 +99,11 @@ app.post('/movie',
     check('Description', 'Please provide more description').isLength({min: 5}),
     check('Genre', 'A movie genre is required').not().isEmpty(),
   ],
-  passport.authenticate('jwt', { session: false }), (req, res) => {
-  let errors = validationResult(req)
-  if(!errors.isEmpty()){
-    return res.status(422).json({ errors: errors.array() })
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() })
   }
   Movies.findOne({ Title: req.query.title })
     .then((movieItem) => {
@@ -202,16 +203,35 @@ app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (r
   DOB (BIRTH) - Birth year of the director
   YOD (DEATH) - Death year of the director
 */
-app.post('/directors?:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.query.title)
-  const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
+app.post('/directors?:title',
+  [
+    // check('Title', 'A movie title is required to assign a director to.' ).not().isEmpty(),
+    check('Name', 'A directors name is required.').not().isEmpty(),
+    check('Bio', 'Please provide information about the director.').not().isEmpty(),
+    check('DOB', 'Please provide the year the director was born.').not().isEmpty(),
+  ],
+  passport.authenticate('jwt',{ session: false }),
+  (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({ errors: errors.array() })
+    }
+  const director = {
+    Director: 
+    { 
+      Name: req.body.Name, 
+      Bio: req.body.Bio, 
+      Birth: req.body.DOB, 
+      Death: req.body.YOD
+    } 
+  }
   Movies.findOneAndUpdate(
     { Title: req.query.title },
     { $set: director },
     { upsert: true },
     (err, updatedMovie) => {
       if (err) {
-        console.log(err)
+        // console.log(err)
         res.status(500).send('Error:' + err)
       } else {
         res.json(updatedMovie)
