@@ -307,7 +307,7 @@ app.put('/users/:username',
     console.log(req.body)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() })
+      res.status(422).json({ errors: errors.array() })
     }
     const hashedPassword = Users.hashPassword(req.body.Password)
     Users.findOneAndUpdate({ username: req.params.username }, {
