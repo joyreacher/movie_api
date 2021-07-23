@@ -29,8 +29,8 @@ userSchema.statics.hashPassword = (password) => {
   return bcrypt.hashSync(password, 10)
 }
 
-//instance method -- dont use arrow functions
-userSchema.methods.validatePassword = function(password){
+// instance method -- dont use arrow functions
+userSchema.methods.validatePassword = function (password) {
   return bcrypt.compareSync(password, this.password)
 }
 
