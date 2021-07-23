@@ -437,7 +437,16 @@ app.post('/users/mymovies/add',
   TITLE = title of the movie the user wants to add to favorites
 */
 
-app.post('/users/mymovies/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users/mymovies/delete',
+  [
+    check('Username', 'A user is required to assign a favorite movie.').notEmpty(),
+    check('Title', 'Title of a movie is required').isLength({min:1})
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(422).json({errors: errors.array()})
+    }
   Users.find({ username: req.body.Username })
     .then((favorite) => {
       // console.log(favorite)
