@@ -6,7 +6,7 @@ const Models = require('./models.js')
 const { check, validationResult } = require('express-validator')
 const Movies = Models.Movie
 const Users = Models.User
-mongoose.connect(process.env.BACKENDKEY, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const express = require('express'); const morgan = require('morgan')
 const app = express()
 const options = {
@@ -44,7 +44,7 @@ app.use(cors({
 // app ensures that Express is available in your "auth.js" file as well
 const auth = require('./auth')(app)
 const passport = require('passport')
-const e = require('express')
+// const e = require('express')
 require('./passport.js')
 /**
   Home screen
