@@ -26,7 +26,6 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 const cors = require('cors')
-// app.use(cors())
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com']
 // ? TO ALLOW API CALLS FROM SPECIFIC ORIGINS
 app.use(cors({
@@ -44,8 +43,9 @@ app.use(cors({
 // app ensures that Express is available in your "auth.js" file as well
 const auth = require('./auth')(app)
 const passport = require('passport')
-// const e = require('express')
 require('./passport')
+
+
 /**
   Home screen
  */
@@ -87,12 +87,23 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req
   Title - Set the name of the director
   Description - Description of the movie
   Genre - Set the genre's Name value
+  Director
+  Bio
+  DOB
+  YOD
   Featured - Bool
 */
-app.post('/movie', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body)
-  // const movie = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
-  // const director = { Director: { Name: req.body.Name, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD } }
+app.post('/movie',
+  [
+    check('Title', 'The movie title is required').isLength({min:1}),
+    check('Description', 'Please provide more description').isLength({min: 5}),
+    check('Genre', 'A movie genre is required').not().isEmpty(),
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(422).json({ errors: errors.array() })
+  }
   Movies.findOne({ Title: req.query.title })
     .then((movieItem) => {
       if (movieItem) {
