@@ -45,7 +45,7 @@ app.use(cors({
 const auth = require('./auth')(app)
 const passport = require('passport')
 // const e = require('express')
-require('./passport.js')
+require('./passport')
 /**
   Home screen
  */
