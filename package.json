@@ -1,20 +1,18 @@
 {
   "name": "movie_api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API designed to store information about films.",
   "main": "index.js",
   "scripts": {
     "test": "standard && node index.js",
     "dev": "nodemon server.js",
     "start": "node index.js",
-    "deploy": "gh-pages -d",
     "doc": "jsdoc -c jsdoc.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jsdoc": "^3.6.7",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
