@@ -297,15 +297,27 @@ app.get('/user/:username', passport.authenticate('jwt', { session: false }), (re
   Email
   Birthday
 */
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:username',
+  [
+    check('Username', 'Username is required').isLength({min:5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required and needs to be at least 6 charactors ').not().isEmpty().isLength({min:6}),
+    check('Email', 'Email does not appear to be vaild.').isEmail(),
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log(req.body)
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    res.status(400).json({errors: errors.array()})
+  }
+  let hashedPassword = Users.hashPassword(req.body.Password)
   Users.findOneAndUpdate({ username: req.params.username }, {
     $set:
       {
         username: req.body.Username,
-        password: req.body.Password,
+        password: hashedPassword,
         email: req.body.Email,
-        birth_date: req.body.Birthday
+        birthday: req.body.Birthday
       }
   },
   { new: true },
