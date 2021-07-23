@@ -133,26 +133,36 @@ app.post('/movie',
   Title         - Set the name of the director
   Description   - Description of the movie
   Genre         - {
-                Name: Set the genre's Name value,
+                GenreName: Set the genre's Name value,
                 GenreDescription: Set the genre's Description
                 }
   Director      - {
-                Name: Set the director's Name value,
+                Director: Set the director's Name value,
                 Bio: Set the director's Bio,
-                Birth: Set the director's DOB,
-                Death: Set the director's YOD
+                DOB: Set the director's DOB,
+                YOD: Set the director's YOD
                 }
   ImagePath     - Used to set the image cover,
   Featured      - Bool
 */
-app.put('/movie/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body)
+app.put('/movie/:title',
+  [
+    check('Title', 'The movie title is required').isLength({min:1}),
+    check('Description', 'Please provide more description').isLength({min: 5}),
+    check('GenreName', 'A movie genre is required').not().isEmpty(),
+    check('ImagePath', 'A link to an image is required').isURL()
+  ],
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+  let errors = validationResult(req)
+  if(!errors.isEmpty()){
+    res.status(422).json({errors: errors.array()})
+  }
   Movies.findOneAndUpdate({ Title: req.params.title }, {
     $set:
       {
         Title: req.body.Title,
         Description: req.body.Description,
-        Genre: { Name: req.body.Genre, Description: req.body.GenreDescription },
+        Genre: { Name: req.body.GenreName, Description: req.body.GenreDescription },
         Director: { Name: req.body.Director, Bio: req.body.Bio, Birth: req.body.DOB, Death: req.body.YOD },
         ImagePath: req.body.ImagePath,
         Featured: false
