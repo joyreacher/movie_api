@@ -457,7 +457,6 @@ app.post('/users/mymovies/add',
   USERNAME = username of the user,
   TITLE = title of the movie the user wants to add to favorites
 */
-
 app.post('/users/mymovies/delete',
   [
     check('Username', 'A user is required to assign a favorite movie.').notEmpty(),
