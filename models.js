@@ -21,7 +21,8 @@ const userSchema = mongoose.Schema({
   birthday: Date,
   favorite_movies: [{
     _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
-    Title: String
+    Title: String,
+    ImagePath: String
   }]
 })
 
