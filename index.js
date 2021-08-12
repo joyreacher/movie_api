@@ -40,6 +40,7 @@ app.use(cors({
     return callback(null, true)
   }
 }))
+
 // app ensures that Express is available in your "auth.js" file as well
 const auth = require('./auth')(app)
 const passport = require('passport')
