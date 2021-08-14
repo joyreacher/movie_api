@@ -22,6 +22,7 @@ const options = {
     res.set('x-timestamp', Date.now())
   }
 }
+
 app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
