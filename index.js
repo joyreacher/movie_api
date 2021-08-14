@@ -8,7 +8,7 @@ const Movies = Models.Movie
 const Users = Models.User
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const express = require('express'); const morgan = require('morgan')
-const app = express()
+const app = express()``
 const options = {
   dotfiles: 'ignore',
   etag: false,
