@@ -42,3 +42,24 @@ module.exports = (router) => {
     })(req, res)
   })
 }
+
+module.exports = (router) => {
+  router.post('/register', (req, res) => {
+    passport.authenticate('local', { session: false }, (error, user, info) => {
+      if (error || !user) {
+        return res.status(400).json({
+          message: 'Could not register',
+          user: user
+        })
+      }
+      req.login(user, { session: false }, (error) => {
+        if (error) {
+          res.send(error)
+        }
+        const token = generateJWTToken(user.toJSON())
+        // Return the token
+        return res.json({ user, token })
+      })
+    })(req, res)
+  })
+}
