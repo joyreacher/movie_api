@@ -430,20 +430,33 @@ app.post('/users/mymovies/add',
                       res.status(400).send(req.body.Title + ' is already saved to your favorites')
                     }
                     console.log('There is no match in the Database. Add movie.')
-                    Users.findOneAndUpdate(
-                      { username: req.body.Username },
-                      { $push: { favorite_movies: movie } },
-                      { new: true },
-                      (err, updatedUser) => {
-                        if (err) {
-                          console.log(err)
-                          res.status(500).send('Error: ' + err)
-                        } else {
-                          res.status(200).send(updatedUser)
-                        }
-                      }
-                    )
+                    // Users.findOneAndUpdate(
+                    //   { username: req.body.Username },
+                    //   { $push: { favorite_movies: movie } },
+                    //   { new: true },
+                    //   (err, updatedUser) => {
+                    //     if (err) {
+                    //       console.log(err)
+                    //       res.status(500).send('Error: ' + err)
+                    //     } else {
+                    //       res.status(200).send(updatedUser)
+                    //     }
+                    //   }
+                    // )
                   })
+                  Users.findOneAndUpdate(
+                    { username: req.body.Username },
+                    { $push: { favorite_movies: movie } },
+                    { new: true },
+                    (err, updatedUser) => {
+                      if (err) {
+                        console.log(err)
+                        res.status(500).send('Error: ' + err)
+                      } else {
+                        res.status(200).send(updatedUser)
+                      }
+                    }
+                  )
                 }
               }
             })
