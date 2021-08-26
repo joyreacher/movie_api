@@ -399,7 +399,7 @@ app.post('/users/mymovies/add',
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() })
     }
-    Movies.findOne({ Title: req.body.Title })
+    Movies.find({ Title: req.body.Title })
       .then((movie) => {
         if (movie) {
           Users.find({ username: req.body.Username })
