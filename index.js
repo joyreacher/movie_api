@@ -423,7 +423,7 @@ app.post('/users/mymovies/add',
                     }
                   )
                 } else {
-                  console.log('favorite_movies is NOT EMPTY')
+                  console.log('check the users favorite movies')
                   user[0].favorite_movies.forEach((title) => {
                     if (title.Title == req.body.Title) {
                       console.log('There is a match in the Database. Dont add movie.')
