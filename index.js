@@ -321,7 +321,6 @@ app.put('/users/:username',
         birthday: req.body.Birthday
       }
     },
-    { useFindAndModify: false },
     { new: true },
     (err, updatedUser) => {
       if (err) {
