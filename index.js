@@ -300,7 +300,7 @@ app.get('/user/:username', passport.authenticate('jwt', { session: false }), (re
 */
 app.put('/users/:username',
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username is required to be more than 5 characters').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required and needs to be at least 6 charactors ').not().isEmpty().isLength({ min: 6 }),
     check('Email', 'Email does not appear to be vaild.').isEmail()
@@ -343,7 +343,7 @@ app.put('/users/:username',
 */
 app.post('/users',
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username is required to be more than 5 characters').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be vaild.').isEmail()
@@ -507,7 +507,7 @@ app.post('/users/mymovies/delete',
 */
 app.post('/users/unregister',
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username is required'),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Email', 'This email does not exist').normalizeEmail().isEmail()
   ],
