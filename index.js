@@ -27,7 +27,7 @@ app.use(morgan('common'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 const cors = require('cors')
-const allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234']
+const allowedOrigins = ['https://sharp-mcnulty-5339f3.netlify.app/', 'http://localhost:8080', 'http://testsite.com', 'http://localhost:1234']
 // ? TO ALLOW API CALLS FROM SPECIFIC ORIGINS
 app.use(cors({
   origin: (origin, callback) => {
