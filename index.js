@@ -169,6 +169,7 @@ app.put('/movie/:title',
         Featured: false
       }
     },
+    { useFindAndModify: false },
     { upsert: true },
     (err, updatedMovie) => {
       if (err) {
@@ -185,7 +186,6 @@ app.put('/movie/:title',
   Return data about a genre (description) by name/title
 */
 app.get('/genre/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.params.genre)
   Movies.find({ 'Genre.Name': req.params.genre })
     .then(movie => {
       res.json(movie)
@@ -275,7 +275,6 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
   Username - username is case sensitive
 */
 app.get('/user/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.params.username)
   Users.findOne({ username: req.params.username })
     .then((user) => {
       if (!user) {
@@ -306,7 +305,6 @@ app.put('/users/:username',
     check('Email', 'Email does not appear to be vaild.').isEmail()
   ],
   passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req.body)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       res.status(422).json({ errors: errors.array() })
@@ -322,6 +320,7 @@ app.put('/users/:username',
       }
     },
     { new: true },
+    { useFindAndModify: false },
     (err, updatedUser) => {
       if (err) {
         console.log(err)
@@ -408,7 +407,6 @@ app.post('/users/mymovies/add',
               // IF THE FAVORITE MOVIES ARRAY EXISTS BUT HAS NO VALUES
               // ADD THE MOVIE
                 if (user[0].favorite_movies == '') {
-                  console.log('favorite_movies is EMPTY')
                   Users.findOneAndUpdate(
                     { username: req.body.Username },
                     { $push: { favorite_movies: movie } },
@@ -423,14 +421,11 @@ app.post('/users/mymovies/add',
                     }
                   )
                 } else {
-                  console.log('check the users favorite movies')
                   user[0].favorite_movies.forEach((title) => {
                     if (title.Title == req.body.Title) {
-                      console.log('There is a match in the Database. Dont add movie.')
                       res.status(400).send(req.body.Title + ' is already saved to your favorites')
                     }
                   })
-                  console.log('There is no match in the Database. Add movie.')
                   Users.findOneAndUpdate(
                     { username: req.body.Username },
                     { $push: { favorite_movies: movie } },
@@ -479,7 +474,6 @@ app.post('/users/mymovies/delete',
         } else {
           let deletedTitle
           favorite[0].favorite_movies.forEach((title, index) => {
-            console.log(index)
             if (title.Title !== req.body.Title) {
               console.log(title.Title + ' is not a match to ' + req.body.Title)
             // res.status(400).send('title.Title did not equal req.body.Title.');
