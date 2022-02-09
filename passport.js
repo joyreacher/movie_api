@@ -1,10 +1,44 @@
+/**
+ * @file passport.js
+ * # passport.js
+ * @module passport
+ */
+ /**
+  * @name passport
+  * @requires https://www.npmjs.com/package/passport
+  */
 const passport = require('passport')
+/**
+  * @name LocalStrategy
+  * @requires https://www.npmjs.com/package/passport-local
+  */
 const LocalStrategy = require('passport-local').Strategy
+/**
+ * @name Models
+ * @summary require from ./models.js
+ */
 const Models = require('./models.js')
+/**
+ * @name passportJWT
+ * @summary require from ./models.js
+ * @requires https://www.npmjs.com/package/passport-jwt
+ */
 const passportJWT = require('passport-jwt')
 
+/**
+ * @name Users 
+ * @summary ## Uses the userSchema defined in models.js
+ */
 const Users = Models.User
+/**
+ * @name JWTStrategy
+ * @todo add description 
+ */
 const JWTStrategy = passportJWT.Strategy
+/**
+ * @name ExtractJWT
+ * @todo add description 
+ */
 const ExtractJWT = passportJWT.ExtractJwt
 
 passport.use(new LocalStrategy({

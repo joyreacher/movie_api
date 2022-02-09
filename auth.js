@@ -1,12 +1,30 @@
-// This has to be the same key used in the JWTStrategy
+/**
+ * @file auth.js
+ * # auth.js
+ * @module auth
+ */
+/**
+ * @private
+ */
 const jwtSecret = 'your_jwt_secret'
-
+/**
+ * @requires https://www.npmjs.com/package/jsonwebtoken
+ */
 const jwt = require('jsonwebtoken')
+/**
+ * @requires https://www.npmjs.com/package/passport
+ */
 const passport = require('passport')
 
-// Your local passport file
+/**
+  @name Local Passport File
+ */
 require('./passport')
-
+/**
+ * @name generateJWTToken
+ * @param {Object} user 
+ * @returns jwt.sign()
+ */
 const generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     // This is the username your encoding in the JWT
@@ -18,12 +36,21 @@ const generateJWTToken = (user) => {
   })
 }
 
-/**
-  POST login
- */
+/** 
+  @name /login
+  @summary # POST
+  @description ## Allow existing users to login | Username, Password
+  ```
+  { 
+    Username,
+    Password,
+  }
+  ``` 
+*/
 
 module.exports = (router) => {
   router.post('/login', (req, res) => {
+    // authenicate using passport
     passport.authenticate('local', { session: false }, (error, user, info) => {
       if (error || !user) {
         return res.status(400).json({
